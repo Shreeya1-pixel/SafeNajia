@@ -15,6 +15,24 @@ Watch the prototype walkthrough (Google Drive):
 https://drive.google.com/drive/folders/1D3imdRD2F6wBZ5q_iGs_-SKUMQxebVHh?usp=sharing
 ```
 
+## Prototype screenshots
+
+### Messages — Pidgin OTP scam → BLOCK
+
+![SafeNajia message scan blocking a Pidgin OTP theft scam](outputs/img/proto-whatsapp-block.jpg)
+
+### Live channels — WhatsApp / Gmail connect
+
+![SafeNajia channel connect for WhatsApp and Gmail](outputs/img/proto-messages-connect.jpg)
+
+### Nigerian language packs (EN · Pidgin · Hausa · Yoruba · Igbo)
+
+![SafeNajia Nigerian language detection samples](outputs/img/proto-languages.jpg)
+
+### GitHub Risk Passport — secrets + bad-code picture
+
+![SafeNajia GitHub scan with highlighted exposed API keys](outputs/img/proto-github-block.jpg)
+
 ---
 
 ## Features

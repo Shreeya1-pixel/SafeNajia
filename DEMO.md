@@ -14,3 +14,21 @@ Open the link above to view or download the demo recording(s).
 - Link / crypto and GitHub Risk Passport (bad-code picture)  
 - SIM Swap Lab / attack cues  
 - SAFE / CAREFUL / DANGER decisions with Pidgin advice  
+
+## Screenshots
+
+### Messages — Pidgin OTP → BLOCK
+
+![Messages BLOCK](outputs/img/proto-whatsapp-block.jpg)
+
+### Channel connect
+
+![Channels](outputs/img/proto-messages-connect.jpg)
+
+### Language packs
+
+![Languages](outputs/img/proto-languages.jpg)
+
+### GitHub bad-code picture
+
+![GitHub](outputs/img/proto-github-block.jpg)
