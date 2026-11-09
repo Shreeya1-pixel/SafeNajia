@@ -472,14 +472,14 @@ def build():
     ]
     y = Inches(2.2)
     for i, (x, label) in enumerate(nodes):
-        flow_node(s, x, y, Inches(2.7), Inches(1.15), label, RED if i < 3 else BLACK)
+        flow_node(s, x, y, Inches(2.7), Inches(1.15), label, RED if i < 3 else DGREY)
         if i < 3:
             arrow_right(s, x + Inches(2.75), y + Inches(0.45))
     # second row
     flow_node(s, M + Inches(1.5), Inches(4.0), Inches(3.2), Inches(1.0), "Feedback → phrase packs\n+ Case Library", DGREY, WHITE, 12)
     arrow_down(s, M + Inches(4.9), Inches(3.45))
     flow_node(s, M + Inches(5.5), Inches(4.0), Inches(3.2), Inches(1.0), "Partner channel\nClubs · NGOs · fintech", MGREY, WHITE, 12)
-    flow_node(s, M + Inches(9.0), Inches(4.0), Inches(3.2), Inches(1.0), "Compliance path\nNDPA · EFCC advice", BLACK, WHITE, 12)
+    flow_node(s, M + Inches(9.0), Inches(4.0), Inches(3.2), Inches(1.0), "Compliance path\nNDPA · EFCC advice", DGREY, WHITE, 12)
     tf = tb(s, M, Inches(5.5), Inches(12.2), Inches(0.9))
     set_p(tf, "Strategy: prove trust on campus → sell to WhatsApp SMBs → license language packs to larger platforms.", size=14, color=MUTED)
     footer(s, 7)
@@ -490,7 +490,7 @@ def build():
     kicker(s, "Solution")
     title(s, "One decision everywhere: Safe / Careful / Danger")
     triad = [
-        (BLACK, "SAFE", "Looks okay\nStill verify big payments"),
+        (DGREY, "SAFE", "Looks okay\nStill verify big payments"),
         (MGREY, "CAREFUL", "Warning + why\nWhat to check next"),
         (RED, "DANGER", "Stop now\nNo OTP · no transfer"),
     ]
@@ -516,7 +516,7 @@ def build():
         arrow_down(s, M + i * Inches(3.15) + Inches(1.3), Inches(2.4))
     flow_node(s, M + Inches(2.0), Inches(2.85), Inches(8.8), Inches(0.75), "Phrase packs (EN · Pidgin · Hausa · Yoruba · Igbo)  +  link visit / SEC  +  secret patterns", RED)
     arrow_down(s, M + Inches(6.35), Inches(3.7))
-    flow_node(s, M + Inches(3.5), Inches(4.1), Inches(5.8), Inches(0.7), "Risk score → SAFE / CAREFUL / DANGER", BLACK)
+    flow_node(s, M + Inches(3.5), Inches(4.1), Inches(5.8), Inches(0.7), "Risk score → SAFE / CAREFUL / DANGER", RED)
     arrow_down(s, M + Inches(6.35), Inches(4.9))
     flow_node(s, M + Inches(2.0), Inches(5.3), Inches(8.8), Inches(0.7), "Plain advice (EN + Pidgin)  ·  Trust Chain  ·  next step (call bank / don’t send OTP)", DKRED)
     footer(s, 9)
@@ -602,7 +602,7 @@ def build():
     title(s, "Clear roadmap — what we do next")
     phases = [
         ("Now (MVP)", RED, ["Chat Demo + Messages live", "Gmail App Password connect", "GitHub bad-code frames", "Phrase packs EN/Pidgin + NG langs"]),
-        ("+90 days", BLACK, ["Campus pilot 2–3 unis", "WhatsApp Cloud production", "Measure blocked OTP shares", "Ambassador playbook"]),
+        ("+90 days", DGREY, ["Campus pilot 2–3 unis", "WhatsApp Cloud production", "Measure blocked OTP shares", "Ambassador playbook"]),
         ("+6 months", MGREY, ["SMB WhatsApp SaaS trial", "Live SEC registry hook", "Expand Hausa/Yoruba/Igbo", "Offline mobile pack"]),
         ("+12 months", DKRED, ["Bank/telco API talks", "White-label language packs", "NCC-CSIRT report assist", "West Africa localisation"]),
     ]
@@ -627,7 +627,7 @@ def build():
     title(s, "Build → pilot → product → partners")
     chain = [
         ("Build\nMVP demo", RED),
-        ("Pilot\nCampuses", BLACK),
+        ("Pilot\nCampuses", DGREY),
         ("Product\nSMB SaaS", MGREY),
         ("Partners\nBank / telco API", DKRED),
     ]
