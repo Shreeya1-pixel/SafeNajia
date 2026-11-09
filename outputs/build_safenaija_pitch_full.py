@@ -26,16 +26,16 @@ WHITE = RGBColor(0xFF, 0xFF, 0xFF)
 
 BRAND = RED
 BRAND_DARK = BLACK
-BRAND_LIGHT = RGBColor(0xF5, 0xF5, 0xF5)
-GREEN = BLACK  # "SAFE" uses black in M8 system
-AMBER = MGREY  # "CAREFUL" uses mid grey
-INK = BLACK
-MUTED = MGREY
-GRAY_BG = WHITE
-CARD = WHITE
-BORDER = GREY
+BRAND_LIGHT = DGREY  # dark cards on black slides
+GREEN = WHITE  # "SAFE" label uses white on black badge
+AMBER = GREY  # "CAREFUL"
+INK = WHITE  # default body text on black
+MUTED = GREY
+GRAY_BG = BLACK
+CARD = DGREY
+BORDER = MGREY
 HEADER_BG = RED
-ROW_ALT = RGBColor(0xF2, 0xF2, 0xF2)
+ROW_ALT = RGBColor(0x2A, 0x2A, 0x2A)
 
 FONT = "Arial"
 W = Inches(13.333)
@@ -175,23 +175,20 @@ def footer(slide, n):
 
 
 def bg(slide, dark=False):
-    rect(slide, 0, 0, W, H, BLACK if dark else WHITE)
-    if dark:
-        # thin red top bar (M8)
-        rect(slide, 0, 0, W, Inches(0.08), RED)
-    else:
-        rect(slide, 0, 0, W, Inches(0.06), RED)
+    # Always black M8 background; red accent bar
+    rect(slide, 0, 0, W, H, BLACK)
+    rect(slide, 0, 0, W, Inches(0.08), RED)
 
 
 def kicker(slide, text):
     tf = tb(slide, M, Inches(0.28), Inches(12), Inches(0.28))
-    set_p(tf, text.upper(), size=11, bold=True, color=BRAND)
-    bar = rect(slide, M, Inches(0.58), Inches(0.5), Inches(0.045), BRAND)
+    set_p(tf, text.upper(), size=11, bold=True, color=RED)
+    bar = rect(slide, M, Inches(0.58), Inches(0.5), Inches(0.045), RED)
 
 
 def title(slide, text, top=Inches(0.72), size=26):
     tf = tb(slide, M, top, Inches(12.3), Inches(0.5))
-    set_p(tf, text, size=size, bold=True, color=INK)
+    set_p(tf, text, size=size, bold=True, color=WHITE)
 
 
 def add_img(slide, path: Path, l, t, w, h=None):
@@ -215,15 +212,15 @@ def draw_table(slide, left, top, col_w, row_h, headers, rows):
     # rows
     for r_i, row in enumerate(rows):
         y = top + row_h * (r_i + 1)
-        color = WHITE if r_i % 2 == 0 else ROW_ALT
+        color = DGREY if r_i % 2 == 0 else ROW_ALT
         x = left
         for c_i, val in enumerate(row):
             rect(slide, x, y, col_w[c_i], row_h, color)
             # left border line
             border = slide.shapes.add_shape(MSO_SHAPE.RECTANGLE, x, y, Pt(0.75), row_h)
-            fill(border, BORDER)
+            fill(border, MGREY)
             tf = tb(slide, x + Inches(0.08), y + Inches(0.08), col_w[c_i] - Inches(0.12), row_h - Inches(0.1))
-            set_p(tf, val, size=11, bold=(c_i == 0), color=INK)
+            set_p(tf, val, size=11, bold=(c_i == 0), color=WHITE if c_i else GREY)
             x += col_w[c_i]
     # outer bottom line
     total_w = sum(col_w)
@@ -306,7 +303,7 @@ def build():
     ]
     for i, (h, body) in enumerate(cards):
         x = M + i * Inches(3.15)
-        box(s, x, Inches(1.7), Inches(3.0), Inches(4.5), WHITE, BORDER)
+        box(s, x, Inches(1.7), Inches(3.0), Inches(4.5), DGREY, BORDER)
         tf = tb(s, x + Inches(0.18), Inches(1.95), Inches(2.65), Inches(0.4))
         set_p(tf, h, size=14, bold=True, color=BRAND)
         tf = tb(s, x + Inches(0.18), Inches(2.5), Inches(2.65), Inches(3.3))
@@ -342,7 +339,7 @@ def build():
     ]
     for i, (big, small, url) in enumerate(stats):
         x = M + i * Inches(3.15)
-        box(s, x, Inches(1.55), Inches(3.0), Inches(3.5), WHITE, BORDER)
+        box(s, x, Inches(1.55), Inches(3.0), Inches(3.5), DGREY, BORDER)
         tf = tb(s, x + Inches(0.12), Inches(1.8), Inches(2.75), Inches(0.7))
         set_p(tf, big, size=22, bold=True, color=RED, align=PP_ALIGN.CENTER)
         tf = tb(s, x + Inches(0.12), Inches(2.65), Inches(2.75), Inches(1.4))
@@ -419,12 +416,12 @@ def build():
     ]
     for i, (who, story, buy, url, link_label) in enumerate(buy_stories):
         y = Inches(1.4) + i * Inches(1.25)
-        box(s, M, y, Inches(12.3), Inches(1.15), WHITE, BORDER)
+        box(s, M, y, Inches(12.3), Inches(1.15), DGREY, BORDER)
         tf = tb(s, M + Inches(0.2), y + Inches(0.1), Inches(2.4), Inches(0.9))
         set_p(tf, who, size=13, bold=True, color=RED)
         tf = tb(s, M + Inches(2.7), y + Inches(0.1), Inches(6.6), Inches(0.95))
         set_p(tf, story, size=12, color=INK)
-        add_p(tf, buy, size=12, bold=True, color=BLACK)
+        add_p(tf, buy, size=12, bold=True, color=WHITE)
         tf = tb(s, M + Inches(9.6), y + Inches(0.35), Inches(2.4), Inches(0.45))
         set_p(tf, link_label, size=12, bold=True, color=RED, align=PP_ALIGN.RIGHT, url=url)
     notes(
@@ -446,13 +443,13 @@ def build():
     ]
     for i, (h, body) in enumerate(steps):
         x = M + i * Inches(3.15)
-        box(s, x, Inches(1.7), Inches(3.0), Inches(3.5), WHITE, BORDER)
+        box(s, x, Inches(1.7), Inches(3.0), Inches(3.5), DGREY, BORDER)
         tf = tb(s, x + Inches(0.18), Inches(1.95), Inches(2.65), Inches(0.4))
         set_p(tf, h, size=16, bold=True, color=BRAND)
         tf = tb(s, x + Inches(0.18), Inches(2.55), Inches(2.65), Inches(2.4))
         set_p(tf, body, size=14, color=INK)
     # market size strip
-    box(s, M, Inches(5.4), Inches(12.3), Inches(1.0), BRAND_LIGHT, BORDER)
+    box(s, M, Inches(5.4), Inches(12.3), Inches(1.0), DGREY, BORDER)
     tf = tb(s, M + Inches(0.25), Inches(5.55), Inches(11.8), Inches(0.7))
     set_p(
         tf,
@@ -479,7 +476,7 @@ def build():
         if i < 3:
             arrow_right(s, x + Inches(2.75), y + Inches(0.45))
     # second row
-    flow_node(s, M + Inches(1.5), Inches(4.0), Inches(3.2), Inches(1.0), "Feedback → phrase packs\n+ Case Library", BRAND_LIGHT, BLACK, 12)
+    flow_node(s, M + Inches(1.5), Inches(4.0), Inches(3.2), Inches(1.0), "Feedback → phrase packs\n+ Case Library", DGREY, WHITE, 12)
     arrow_down(s, M + Inches(4.9), Inches(3.45))
     flow_node(s, M + Inches(5.5), Inches(4.0), Inches(3.2), Inches(1.0), "Partner channel\nClubs · NGOs · fintech", MGREY, WHITE, 12)
     flow_node(s, M + Inches(9.0), Inches(4.0), Inches(3.2), Inches(1.0), "Compliance path\nNDPA · EFCC advice", BLACK, WHITE, 12)
@@ -499,7 +496,7 @@ def build():
     ]
     for i, (c, h, body) in enumerate(triad):
         x = M + i * Inches(4.15)
-        box(s, x, Inches(1.75), Inches(3.9), Inches(3.6), WHITE, BORDER)
+        box(s, x, Inches(1.75), Inches(3.9), Inches(3.6), DGREY, BORDER)
         badge = box(s, x + Inches(0.9), Inches(2.05), Inches(2.1), Inches(0.55), c)
         tf = badge.text_frame
         set_p(tf, h, size=16, bold=True, color=WHITE, align=PP_ALIGN.CENTER)
@@ -515,7 +512,7 @@ def build():
     # inputs
     inputs = ["WhatsApp", "Gmail", "Link / crypto", "GitHub"]
     for i, label in enumerate(inputs):
-        flow_node(s, M + i * Inches(3.15), Inches(1.65), Inches(2.9), Inches(0.7), label, BRAND_LIGHT, BRAND_DARK, 13)
+        flow_node(s, M + i * Inches(3.15), Inches(1.65), Inches(2.9), Inches(0.7), label, DGREY, WHITE, 13)
         arrow_down(s, M + i * Inches(3.15) + Inches(1.3), Inches(2.4))
     flow_node(s, M + Inches(2.0), Inches(2.85), Inches(8.8), Inches(0.75), "Phrase packs (EN · Pidgin · Hausa · Yoruba · Igbo)  +  link visit / SEC  +  secret patterns", RED)
     arrow_down(s, M + Inches(6.35), Inches(3.7))
@@ -531,7 +528,7 @@ def build():
     title(s, "Messages: Pidgin OTP scam → BLOCK")
     pic = IMG / "proto-whatsapp-block.jpg"
     add_img(s, pic, M, Inches(1.4), Inches(8.6))
-    box(s, M + Inches(8.85), Inches(1.4), Inches(3.5), Inches(5.0), WHITE, BORDER)
+    box(s, M + Inches(8.85), Inches(1.4), Inches(3.5), Inches(5.0), DGREY, BORDER)
     tf = tb(s, M + Inches(9.05), Inches(1.65), Inches(3.15), Inches(4.5))
     set_p(tf, "What judges see", size=14, bold=True, color=BRAND)
     add_p(tf, "• Real channel connect (WhatsApp / Gmail / IG)", size=12)
@@ -554,7 +551,7 @@ def build():
     ]
     for i, (path, caption) in enumerate(shots):
         x = M + i * Inches(4.15)
-        box(s, x, Inches(1.5), Inches(4.0), Inches(5.0), WHITE, BORDER)
+        box(s, x, Inches(1.5), Inches(4.0), Inches(5.0), DGREY, BORDER)
         add_img(s, path, x + Inches(0.15), Inches(1.7), Inches(3.7))
         tf = tb(s, x + Inches(0.15), Inches(5.85), Inches(3.7), Inches(0.5))
         set_p(tf, caption, size=12, bold=True, color=BRAND, align=PP_ALIGN.CENTER)
@@ -591,7 +588,7 @@ def build():
     ]
     for i, (h, body) in enumerate(items):
         y = Inches(1.6) + i * Inches(1.15)
-        box(s, M, y, Inches(12.3), Inches(1.05), WHITE, BORDER)
+        box(s, M, y, Inches(12.3), Inches(1.05), DGREY, BORDER)
         tf = tb(s, M + Inches(0.3), y + Inches(0.15), Inches(11.7), Inches(0.35))
         set_p(tf, h, size=16, bold=True, color=BRAND)
         tf = tb(s, M + Inches(0.3), y + Inches(0.5), Inches(11.7), Inches(0.4))
@@ -611,7 +608,7 @@ def build():
     ]
     for i, (h, color, bullets) in enumerate(phases):
         x = M + i * Inches(3.15)
-        box(s, x, Inches(1.55), Inches(3.0), Inches(5.0), WHITE, BORDER)
+        box(s, x, Inches(1.55), Inches(3.0), Inches(5.0), DGREY, BORDER)
         head = box(s, x, Inches(1.55), Inches(3.0), Inches(0.55), color)
         tf = head.text_frame
         set_p(tf, h, size=13, bold=True, color=WHITE, align=PP_ALIGN.CENTER)
@@ -641,7 +638,7 @@ def build():
         if i < 3:
             arrow_right(s, x + Inches(2.9), y + Inches(0.55))
     # success metrics under
-    box(s, M, Inches(4.2), Inches(12.3), Inches(2.2), WHITE, BORDER)
+    box(s, M, Inches(4.2), Inches(12.3), Inches(2.2), DGREY, BORDER)
     tf = tb(s, M + Inches(0.3), Inches(4.4), Inches(11.7), Inches(1.8))
     set_p(tf, "Success metrics we track", size=15, bold=True, color=BRAND)
     add_p(tf, "1) % of OTP scam samples correctly BLOCKED   2) False BLOCK rate on clean chat   3) Campus weekly active users", size=13)
@@ -686,7 +683,7 @@ def build():
         x = M + col * Inches(6.35)
         y = Inches(2.35)
         for label, url in items:
-            box(s, x, y, Inches(6.1), Inches(0.62), WHITE, BORDER)
+            box(s, x, y, Inches(6.1), Inches(0.62), DGREY, BORDER)
             tf = tb(s, x + Inches(0.12), y + Inches(0.08), Inches(5.85), Inches(0.48))
             set_p(tf, label, size=10, bold=True, color=RED, url=url)
             y += Inches(0.68)
