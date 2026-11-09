@@ -2,6 +2,12 @@ import { Link } from "react-router-dom";
 
 const FEATURES = [
   {
+    to: "/analyze",
+    n: "00",
+    title: "Analyze a threat",
+    desc: "Paste a message, screenshot text, URL or email — get SAFE / CAREFUL / DANGER + Trust Chain.",
+  },
+  {
     to: "/chat-demo",
     n: "01",
     title: "WhatsApp & Instagram chat demo",
@@ -50,11 +56,11 @@ export default function Home() {
           checks, and Google OSINT for SIM-swap risk — with Nigerian languages built into every scan.
         </p>
         <div className="home-hero-cta">
-          <Link to="/messages" className="sim-run-btn">
-            Connect a channel →
+          <Link to="/analyze" className="sim-run-btn">
+            Analyze a threat →
           </Link>
-          <Link to="/sim-swap" className="ng-btn-ghost">
-            Open SIM Swap Lab
+          <Link to="/cases" className="ng-btn-ghost">
+            Case Library
           </Link>
         </div>
       </section>

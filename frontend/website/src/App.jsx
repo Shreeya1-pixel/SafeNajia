@@ -8,6 +8,7 @@ import FraudCall from "./pages/nigeria/FraudCall";
 import SimSwap from "./pages/nigeria/SimSwap";
 import ChatDemo from "./pages/nigeria/ChatDemo";
 import Cases from "./pages/nigeria/Cases";
+import Analyze from "./pages/nigeria/Analyze";
 import "./styles/safeo.css";
 import "./styles/safenaija.css";
 
@@ -18,6 +19,7 @@ export default function App() {
         <Layout>
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/analyze" element={<Analyze />} />
             <Route path="/messages" element={<MessageScan />} />
             <Route path="/chat-demo" element={<ChatDemo />} />
             <Route path="/links" element={<LinkScan />} />

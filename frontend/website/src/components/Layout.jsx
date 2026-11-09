@@ -35,6 +35,7 @@ export default function Layout({ children }) {
         </div>
         <nav className="safeo-nav">
           {navLink("/", "Home")}
+          {navLink("/analyze", "Analyze")}
           {navLink("/messages", "Messages")}
           {navLink("/chat-demo", "Chat Demo")}
           {navLink("/links", "Links")}
@@ -45,8 +46,8 @@ export default function Layout({ children }) {
         <div className="safeo-header-right">
           <span className={`safeo-engine-dot ${backendOk ? "ok" : "off"}`} title={backendOk ? "Engine online" : "Engine offline"} />
           <span className="safeo-engine-label">{backendOk ? "Engine online" : "Engine offline"}</span>
-          <Link to="/chat-demo" className="sim-run-btn safeo-nav-cta">
-            Chat demo →
+          <Link to="/analyze" className="sim-run-btn safeo-nav-cta">
+            Analyze a threat →
           </Link>
         </div>
       </header>

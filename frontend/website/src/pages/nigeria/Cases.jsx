@@ -42,17 +42,7 @@ export default function Cases() {
   );
 
   function analyzeSample(s) {
-    if (s.kind === "url") {
-      navigate("/links", { state: { sampleUrl: s.content, sampleTitle: s.title } });
-      return;
-    }
-    navigate("/messages", {
-      state: {
-        sampleText: s.content,
-        sampleTitle: s.title,
-        sampleChannel: s.kind === "email" ? "gmail" : "manual",
-      },
-    });
+    navigate(`/analyze?sample=${encodeURIComponent(s.id)}`);
   }
 
   return (
