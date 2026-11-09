@@ -3,6 +3,9 @@ import { Link, useSearchParams } from "react-router-dom";
 import DecisionBadge from "../../components/DecisionBadge";
 import TrustChain, { buildTrustChain } from "../../components/TrustChain";
 import { DEMO_SAMPLES, DEMO_SCREENSHOT_TRANSCRIPTS } from "../../data/demoSamples";
+import { THREAT_CASES } from "../../data/threatCases";
+import { EXPECTED_SEV, categoryName } from "../../data/caseTaxonomy";
+import { SAMPLE_TO_CASE } from "../../data/caseAnalyzeLinks";
 import { scanLink, scanMessage } from "../../nigeriaApi";
 
 const LIMITS = { text: 20000, url: 2048, email: 100000 };
@@ -31,6 +34,7 @@ export default function Analyze() {
   const [kind, setKind] = useState("text");
   const [value, setValue] = useState("");
   const [sampleId, setSampleId] = useState(undefined);
+  const [caseId, setCaseId] = useState(undefined);
   const [image, setImage] = useState(null);
   const [ocrText, setOcrText] = useState("");
   const [dragging, setDragging] = useState(false);
@@ -42,25 +46,143 @@ export default function Analyze() {
   const [resultKind, setResultKind] = useState("message");
   const resultRef = useRef(null);
   const fileRef = useRef(null);
+  const autorunKey = useRef("");
+  const valueRef = useRef("");
+  const kindRef = useRef("text");
+  const emailModeRef = useRef("fields");
+  const mailRef = useRef(mail);
+  const ocrRef = useRef("");
+  const sampleIdRef = useRef(undefined);
 
-  const loadSample = useCallback((id) => {
+  valueRef.current = value;
+  kindRef.current = kind;
+  emailModeRef.current = emailMode;
+  mailRef.current = mail;
+  ocrRef.current = ocrText;
+  sampleIdRef.current = sampleId;
+
+  const loadSample = useCallback((id, linkedCaseId) => {
     const s = DEMO_SAMPLES.find((x) => x.id === id);
-    if (!s || s.kind === "screenshot") return;
+    if (!s || s.kind === "screenshot") return false;
     setKind(s.kind);
     setValue(s.content);
     setSampleId(s.id);
+    setCaseId(linkedCaseId || SAMPLE_TO_CASE[s.id] || undefined);
     setResult(null);
     setError(null);
     setImage(null);
     if (s.kind === "email") setEmailMode("raw");
+    return true;
+  }, []);
+
+  const runWith = useCallback(async (opts) => {
+    const k = opts.kind;
+    const v = opts.value;
+    const em = opts.emailMode;
+    const m = opts.mail;
+    const ocr = opts.ocrText;
+    const sid = opts.sampleId;
+
+    setError(null);
+    let text = "";
+    let scanKind = "message";
+    try {
+      if (k === "screenshot") {
+        text = (ocr || "").trim();
+        if (!text) {
+          setError({
+            title: "Need message text",
+            message:
+              "Localhost has no cloud OCR. Paste the screenshot text below, or use the demo WhatsApp screenshot transcript.",
+          });
+          return;
+        }
+        scanKind = "message";
+      } else if (k === "url") {
+        text = (v || "").trim();
+        if (!text) {
+          setError({ title: "Nothing to analyse", message: "Paste a link first." });
+          return;
+        }
+        scanKind = "link";
+      } else if (k === "email" && em === "fields") {
+        if (!m.body.trim() && !m.subject.trim()) {
+          setError({ title: "Nothing to analyse", message: "Add the email subject or body first." });
+          return;
+        }
+        text = [
+          m.from ? `From: ${m.from}` : "",
+          m.subject ? `Subject: ${m.subject}` : "",
+          "",
+          m.body,
+          m.links.trim() ? `\nLinks:\n${m.links.trim()}` : "",
+        ]
+          .filter(Boolean)
+          .join("\n");
+        scanKind = "message";
+      } else {
+        text = (v || "").trim();
+        if (!text) {
+          setError({ title: "Nothing to analyse", message: "Paste something to analyse first." });
+          return;
+        }
+        scanKind = k === "url" ? "link" : "message";
+      }
+
+      setLoading(true);
+      setResult(null);
+      setTimeout(() => resultRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }), 30);
+
+      let data;
+      if (scanKind === "link") {
+        data = await scanLink(text.startsWith("http") ? text : `https://${text}`, "");
+        setResultKind("link");
+      } else {
+        data = await scanMessage(text, k === "email" ? "gmail" : sid ? "manual" : "manual");
+        setResultKind("message");
+      }
+      setResult(data);
+      setTimeout(() => resultRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }), 50);
+    } catch (e) {
+      setError({ title: "Analysis failed", message: e.message || String(e) });
+    } finally {
+      setLoading(false);
+    }
   }, []);
 
   useEffect(() => {
-    const requested = params.get("sample");
-    if (requested && DEMO_SAMPLES.some((s) => s.id === requested && s.kind !== "screenshot")) {
-      loadSample(requested);
+    const requestedSample = params.get("sample");
+    const requestedCase = params.get("case") || undefined;
+    const shouldAutorun = params.get("autorun") === "1";
+    const key = `${requestedCase || ""}|${requestedSample || ""}|${shouldAutorun ? "1" : "0"}`;
+
+    if (requestedCase && !requestedSample) {
+      setCaseId(requestedCase);
     }
-  }, [params, loadSample]);
+
+    if (requestedSample && DEMO_SAMPLES.some((s) => s.id === requestedSample && s.kind !== "screenshot")) {
+      const s = DEMO_SAMPLES.find((x) => x.id === requestedSample);
+      loadSample(requestedSample, requestedCase);
+      if (shouldAutorun && autorunKey.current !== key && s) {
+        autorunKey.current = key;
+        // Defer so state from loadSample is applied via refs/content
+        const content = s.content;
+        const k = s.kind;
+        setTimeout(() => {
+          runWith({
+            kind: k,
+            value: content,
+            emailMode: k === "email" ? "raw" : "fields",
+            mail: { from: "", subject: "", body: "", links: "" },
+            ocrText: "",
+            sampleId: s.id,
+          });
+        }, 40);
+      }
+    } else if (requestedCase) {
+      setCaseId(requestedCase);
+    }
+  }, [params, loadSample, runWith]);
 
   function switchKind(k) {
     if (k === kind) return;
@@ -68,6 +190,7 @@ export default function Analyze() {
     setResult(null);
     setError(null);
     setSampleId(undefined);
+    setCaseId(undefined);
     setValue("");
     setImage(null);
     setOcrText("");
@@ -107,7 +230,6 @@ export default function Analyze() {
   }
 
   async function useDemoScreenshot() {
-    // Load bundled demo transcript without needing the PNG asset
     const first = Object.values(DEMO_SCREENSHOT_TRANSCRIPTS)[0];
     if (!first) return;
     setKind("screenshot");
@@ -120,76 +242,21 @@ export default function Analyze() {
     });
     setOcrText(first.text);
     setSampleId(undefined);
+    setCaseId(undefined);
     setResult(null);
     setError(null);
   }
 
-  async function run() {
+  function run() {
     if (loading) return;
-    setError(null);
-    let text = "";
-    let scanKind = "message";
-    try {
-      if (kind === "screenshot") {
-        text = ocrText.trim();
-        if (!text) {
-          setError({
-            title: "Need message text",
-            message: "Localhost has no cloud OCR. Paste the screenshot text below, or use the demo WhatsApp screenshot transcript.",
-          });
-          return;
-        }
-        scanKind = "message";
-      } else if (kind === "url") {
-        text = value.trim();
-        if (!text) {
-          setError({ title: "Nothing to analyse", message: "Paste a link first." });
-          return;
-        }
-        scanKind = "link";
-      } else if (kind === "email" && emailMode === "fields") {
-        if (!mail.body.trim() && !mail.subject.trim()) {
-          setError({ title: "Nothing to analyse", message: "Add the email subject or body first." });
-          return;
-        }
-        text = [
-          mail.from ? `From: ${mail.from}` : "",
-          mail.subject ? `Subject: ${mail.subject}` : "",
-          "",
-          mail.body,
-          mail.links.trim() ? `\nLinks:\n${mail.links.trim()}` : "",
-        ]
-          .filter(Boolean)
-          .join("\n");
-        scanKind = "message";
-      } else {
-        text = value.trim();
-        if (!text) {
-          setError({ title: "Nothing to analyse", message: "Paste something to analyse first." });
-          return;
-        }
-        scanKind = kind === "url" ? "link" : "message";
-      }
-
-      setLoading(true);
-      setResult(null);
-      setTimeout(() => resultRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }), 30);
-
-      let data;
-      if (scanKind === "link") {
-        data = await scanLink(text.startsWith("http") ? text : `https://${text}`, "");
-        setResultKind("link");
-      } else {
-        data = await scanMessage(text, kind === "email" ? "gmail" : sampleId ? "manual" : "manual");
-        setResultKind("message");
-      }
-      setResult(data);
-      setTimeout(() => resultRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }), 50);
-    } catch (e) {
-      setError({ title: "Analysis failed", message: e.message || String(e) });
-    } finally {
-      setLoading(false);
-    }
+    runWith({
+      kind: kindRef.current,
+      value: valueRef.current,
+      emailMode: emailModeRef.current,
+      mail: mailRef.current,
+      ocrText: ocrRef.current,
+      sampleId: sampleIdRef.current,
+    });
   }
 
   const samples = useMemo(() => DEMO_SAMPLES.filter((s) => s.showInPicker), []);
@@ -207,6 +274,7 @@ export default function Analyze() {
     }
   }
   const sample = sampleId ? DEMO_SAMPLES.find((s) => s.id === sampleId) : undefined;
+  const linkedCase = caseId ? THREAT_CASES.find((c) => c.id === caseId) : undefined;
   const chain = result ? buildTrustChain(result, resultKind) : [];
 
   return (
@@ -219,6 +287,50 @@ export default function Analyze() {
           behind it, what it wants, where it leads — and tells you what to do next.
         </p>
       </header>
+
+      {linkedCase && (
+        <section className="ng-card ng-case-context" aria-label="Related case">
+          <div className="ng-case-meta-row">
+            <span className="ng-case-label">{linkedCase.label}</span>
+            <span className="ng-case-cat">{categoryName(linkedCase.threatType)}</span>
+            {sample && (
+              <span className={`ng-sev ng-sev-${EXPECTED_SEV[sample.expected]}`}>
+                Expected {EXPECTED_SEV[sample.expected]}
+              </span>
+            )}
+          </div>
+          <h3>From Case Library: {linkedCase.name}</h3>
+          <p className="ng-muted">{linkedCase.mechanism}</p>
+          {sample?.basedOn && <p className="ng-muted">Sample based on: {sample.basedOn}</p>}
+          <div className="ng-btn-row" style={{ marginTop: 10 }}>
+            <Link to={`/cases/${linkedCase.id}`} className="ng-btn-ghost">
+              Open full case report →
+            </Link>
+            <Link to="/cases" className="ng-linkish" style={{ marginTop: 0 }}>
+              All cases
+            </Link>
+          </div>
+        </section>
+      )}
+
+      {!linkedCase && sample && (
+        <section className="ng-card ng-case-context" aria-label="Loaded sample">
+          <div className="ng-case-meta-row">
+            <span className={`ng-case-label ${sample.label === "SYNTHETIC DEMO" ? "ng-case-label-demo" : ""}`}>
+              {sample.label}
+            </span>
+            <span className={`ng-sev ng-sev-${EXPECTED_SEV[sample.expected]}`}>
+              Expected {EXPECTED_SEV[sample.expected]}
+            </span>
+          </div>
+          <h3>{sample.title}</h3>
+          <p className="ng-muted">{sample.note}</p>
+          {sample.basedOn && <p className="ng-muted">Based on: {sample.basedOn}</p>}
+          <Link to="/cases" className="ng-linkish">
+            Browse Case Library →
+          </Link>
+        </section>
+      )}
 
       <div className="ng-analyze-grid">
         <section className="ng-card ng-analyze-main" aria-label="Input">
@@ -333,6 +445,7 @@ export default function Analyze() {
                 onChange={(e) => {
                   setValue(e.target.value);
                   setSampleId(undefined);
+                  setCaseId(undefined);
                 }}
                 placeholder="https://…"
                 maxLength={LIMITS.url}
@@ -389,6 +502,7 @@ export default function Analyze() {
                   setEmailMode("raw");
                   setValue("");
                   setSampleId(undefined);
+                  setCaseId(undefined);
                 }}
               >
                 Advanced: paste full email source
@@ -405,6 +519,7 @@ export default function Analyze() {
                 onChange={(e) => {
                   setValue(e.target.value);
                   setSampleId(undefined);
+                  setCaseId(undefined);
                 }}
                 onKeyDown={(e) => {
                   if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) {
@@ -487,6 +602,13 @@ export default function Analyze() {
         ) : result ? (
           <section className="ng-card ng-result">
             <h3>Investigation report</h3>
+            {sample && (
+              <p className="ng-muted" style={{ marginBottom: 8 }}>
+                Sample: <strong>{sample.title}</strong>
+                {linkedCase ? ` · Case: ${linkedCase.name}` : ""}
+                {" · "}Expected {EXPECTED_SEV[sample.expected]}
+              </p>
+            )}
             <DecisionBadge decision={result.decision} score={result.risk_score} />
             <p>{result.advice}</p>
             {result.language && (
@@ -529,6 +651,11 @@ export default function Analyze() {
                   ? "Be careful — verify on official .gov.ng / bank channels before acting."
                   : "Looks comparatively safe — still verify big payments independently."}
             </p>
+            {linkedCase && (
+              <Link to={`/cases/${linkedCase.id}`} className="ng-linkish">
+                Back to case report →
+              </Link>
+            )}
           </section>
         ) : (
           <section className="ng-card ng-report-placeholder">

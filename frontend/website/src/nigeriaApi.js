@@ -1,4 +1,5 @@
-const API = "/api";
+/** Production: set VITE_API_BASE to the Railway API origin (e.g. https://xxx.up.railway.app). Local: Vite proxies /api → :8001. */
+const API = (import.meta.env.VITE_API_BASE || "/api").replace(/\/$/, "");
 const TIMEOUT_MS = 20000;
 
 async function post(path, body) {

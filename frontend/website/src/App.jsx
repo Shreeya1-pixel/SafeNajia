@@ -8,6 +8,7 @@ import FraudCall from "./pages/nigeria/FraudCall";
 import SimSwap from "./pages/nigeria/SimSwap";
 import ChatDemo from "./pages/nigeria/ChatDemo";
 import Cases from "./pages/nigeria/Cases";
+import CaseDetail from "./pages/nigeria/CaseDetail";
 import Analyze from "./pages/nigeria/Analyze";
 import "./styles/safeo.css";
 import "./styles/safenaija.css";
@@ -26,6 +27,7 @@ export default function App() {
             <Route path="/calls" element={<FraudCall />} />
             <Route path="/sim-swap" element={<SimSwap />} />
             <Route path="/cases" element={<Cases />} />
+            <Route path="/cases/:id" element={<CaseDetail />} />
             {/* Legacy paths redirect into merged lab / messages */}
             <Route path="/lab" element={<SimSwap />} />
             <Route path="/languages" element={<MessageScan />} />

@@ -1,0 +1,12 @@
+{
+  "_note": "Demo / synthetic reported scam numbers for attack simulation. Not a live blacklist feed.",
+  "numbers": [
+    {"number": "+2348012345678", "reports": 42, "category": "bank_impersonation", "note": "Pretends to be GTBank fraud desk"},
+    {"number": "+2348098765432", "reports": 28, "category": "otp_theft", "note": "Asks victims for SMS OTP"},
+    {"number": "+2347011122233", "reports": 19, "category": "crypto_scam", "note": "Fake crypto recovery agent"},
+    {"number": "+2348022233344", "reports": 35, "category": "fake_loan", "note": "Pushy loan-app callers"},
+    {"number": "+2349033344455", "reports": 14, "category": "romance_scam", "note": "Romance / investment follow-up calls"},
+    {"number": "08055550101", "reports": 51, "category": "bank_impersonation", "note": "Spoofed Access Bank helpline"},
+    {"number": "07033334444", "reports": 22, "category": "sim_swap", "note": "Asks for SIM PUK / NIN details"}
+  ]
+}

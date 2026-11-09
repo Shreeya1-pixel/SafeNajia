@@ -1,0 +1,11 @@
+# Slim Railway deploy — offline SafeNaija engine (no torch / transformers)
+fastapi==0.115.6
+uvicorn[standard]==0.34.0
+pydantic==2.10.6
+requests==2.32.3
+python-multipart==0.0.20
+httpx==0.28.1
+python-dotenv>=1.0.0
+openai>=1.40.0
+numpy>=1.26.0
+scipy>=1.11.0

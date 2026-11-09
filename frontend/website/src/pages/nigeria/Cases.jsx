@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { THREAT_CASES, SOURCE_REGISTRY, TRUSTED_ENTITIES } from "../../data/threatCases";
 import { DEMO_SAMPLES } from "../../data/demoSamples";
 import { CATEGORY_NAMES, authorityOf, categoryName, EXPECTED_SEV } from "../../data/caseTaxonomy";
+import { analyzeHrefForCase, analyzeHrefForSample, CASE_TO_SAMPLE } from "../../data/caseAnalyzeLinks";
 
 const KIND_LABEL = { text: "Message", url: "URL", email: "Email", screenshot: "Screenshot" };
 
@@ -42,7 +43,7 @@ export default function Cases() {
   );
 
   function analyzeSample(s) {
-    navigate(`/analyze?sample=${encodeURIComponent(s.id)}`);
+    navigate(analyzeHrefForSample(s.id));
   }
 
   return (
@@ -128,6 +129,7 @@ export default function Cases() {
             {caseList.map((c) => {
               const isOpen = open === c.id;
               const authority = authorityOf(c.sourceOrg);
+              const linkedSample = CASE_TO_SAMPLE[c.id];
               return (
                 <article key={c.id} className={`ng-card ng-case ${isOpen ? "open" : ""}`}>
                   <button type="button" className="ng-case-head" onClick={() => setOpen(isOpen ? null : c.id)}>
@@ -148,6 +150,18 @@ export default function Cases() {
                     <span>{c.indicators.length} indicators</span>
                     <span>{1 + (c.supportingUrls?.length || 0)} source{(1 + (c.supportingUrls?.length || 0)) === 1 ? "" : "s"}</span>
                     <span>re-checked {c.sourceAudit?.checkedOn}</span>
+                  </div>
+                  <div className="ng-btn-row ng-case-cta-row">
+                    <Link to={`/cases/${c.id}`} className="ng-btn-ghost">
+                      Full report →
+                    </Link>
+                    <button
+                      type="button"
+                      className="sim-run-btn"
+                      onClick={() => navigate(analyzeHrefForCase(c.id))}
+                    >
+                      {linkedSample ? "Analyze similar →" : "Open Analyze →"}
+                    </button>
                   </div>
                   {isOpen && (
                     <div className="ng-case-body">
@@ -178,7 +192,14 @@ export default function Cases() {
                         </>
                       )}
                       <div className="ng-btn-row" style={{ marginTop: 10 }}>
-                        <a className="sim-run-btn" href={c.sourceUrl} target="_blank" rel="noreferrer">
+                        <button
+                          type="button"
+                          className="sim-run-btn"
+                          onClick={() => navigate(analyzeHrefForCase(c.id))}
+                        >
+                          Analyze a similar message →
+                        </button>
+                        <a className="ng-btn-ghost" href={c.sourceUrl} target="_blank" rel="noreferrer">
                           Primary source →
                         </a>
                         {(c.supportingUrls || []).map((u) => (
@@ -305,7 +326,7 @@ export default function Cases() {
           <p className="ng-muted" style={{ gridColumn: "1 / -1" }}>
             Hackathon prototype — risk assessment, not a guarantee. Not endorsed by NCC, CBN, SEC or any agency named
             in the registry.{" "}
-            <Link to="/messages">Analyze a message →</Link>
+            <Link to="/analyze">Analyze a threat →</Link>
           </p>
         </div>
       )}

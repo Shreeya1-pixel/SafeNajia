@@ -903,3 +903,112 @@
   line-height: 1.5;
 }
 .ng-email-fields .ng-grid-2 { margin-bottom: 8px; }
+
+/* Cases ↔ Analyze bridge */
+.ng-case-cta-row {
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid #f3f4f6;
+}
+.ng-case-context {
+  margin-bottom: 16px;
+  border-left: 4px solid var(--ng-green, #059669);
+}
+.ng-case-context h3 {
+  margin: 6px 0;
+  font-size: 17px;
+}
+.ng-case-detail .ng-breadcrumb {
+  font-size: 13px;
+  margin-bottom: 12px;
+}
+.ng-case-detail .ng-breadcrumb a {
+  color: var(--ng-green, #059669);
+  font-weight: 600;
+  text-decoration: none;
+}
+.ng-case-detail-hero h2 {
+  margin: 4px 0 14px;
+  font-size: 1.65rem;
+  line-height: 1.25;
+}
+.ng-case-detail-meta {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  font-size: 14px;
+}
+@media (max-width: 720px) {
+  .ng-case-detail-meta { grid-template-columns: 1fr; }
+}
+.ng-case-detail-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+  gap: 16px;
+  margin-top: 16px;
+  align-items: start;
+}
+@media (max-width: 900px) {
+  .ng-case-detail-grid { grid-template-columns: 1fr; }
+}
+.ng-case-lead {
+  font-size: 1.15rem;
+  line-height: 1.45;
+  color: #111827;
+  margin: 0;
+}
+.ng-journey {
+  list-style: none;
+  padding: 0;
+  margin: 10px 0 0;
+}
+.ng-journey li {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  margin-bottom: 12px;
+  font-size: 14px;
+}
+.ng-journey-n {
+  flex: 0 0 28px;
+  height: 28px;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  font-size: 12px;
+  font-weight: 800;
+  color: #991b1b;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+}
+.ng-analyze-cta-card {
+  border: 1px solid #a7f3d0;
+  background: #ecfdf5;
+}
+.ng-source-list {
+  list-style: none;
+  padding: 0;
+  margin: 8px 0 0;
+}
+.ng-source-list li { margin-bottom: 8px; }
+.ng-source-list a {
+  color: var(--ng-green, #059669);
+  font-weight: 600;
+  font-size: 13px;
+}
+.ng-case-detail-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: space-between;
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px solid #e5e7eb;
+}
+.ng-case-detail code {
+  font-size: 12px;
+  background: #f3f4f6;
+  padding: 2px 6px;
+  border-radius: 4px;
+  word-break: break-all;
+}
