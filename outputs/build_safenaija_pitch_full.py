@@ -41,7 +41,11 @@ FONT = "Arial"
 W = Inches(13.333)
 H = Inches(7.5)
 M = Inches(0.5)
-TOTAL = 17
+TOTAL = 18
+
+DEMO_VIDEO = "https://drive.google.com/drive/folders/1D3imdRD2F6wBZ5q_iGs_-SKUMQxebVHh?usp=sharing"
+GITHUB_REPO = "https://github.com/Shreeya1-pixel/SafeNajia.git"
+GITHUB_WEB = "https://github.com/Shreeya1-pixel/SafeNajia"
 
 # News sources judges can open live during Q&A
 NEWS_SOURCES = [
@@ -271,14 +275,23 @@ def build():
         size=18,
         color=GREY,
     )
-    tf = tb(s, M, Inches(4.7), Inches(11), Inches(0.8))
+    tf = tb(s, M, Inches(4.55), Inches(11), Inches(0.45))
     set_p(
         tf,
         "Customers → students & SMBs  ·  Market strategy → campus then WhatsApp commerce  ·  Twist: Norton Genie standalone",
-        size=14,
+        size=13,
         color=RED,
     )
-    notes(s, "Open with demo promise; point to prototype slides mid-pitch. Cite FIJ / Punch / Vanguard on problem slides.")
+    # Clickable project links (checked in submission)
+    box(s, M, Inches(5.3), Inches(6.0), Inches(1.15), DGREY, None)
+    tf = tb(s, M + Inches(0.2), Inches(5.4), Inches(5.6), Inches(0.95))
+    set_p(tf, "Demo video (Google Drive) →", size=13, bold=True, color=RED, url=DEMO_VIDEO)
+    add_p(tf, DEMO_VIDEO, size=10, color=GREY, url=DEMO_VIDEO)
+    box(s, M + Inches(6.3), Inches(5.3), Inches(6.0), Inches(1.15), DGREY, None)
+    tf = tb(s, M + Inches(6.5), Inches(5.4), Inches(5.6), Inches(0.95))
+    set_p(tf, "GitHub repo →", size=13, bold=True, color=RED, url=GITHUB_WEB)
+    add_p(tf, GITHUB_REPO, size=10, color=GREY, url=GITHUB_REPO)
+    notes(s, "Open with demo promise; click Drive + GitHub links. Cite FIJ / Punch / Vanguard on problem slides.")
 
     # 2 Brief
     s = prs.slides.add_slide(blank)
@@ -339,7 +352,7 @@ def build():
     tf = tb(s, M, Inches(5.3), Inches(12.2), Inches(1.0))
     set_p(
         tf,
-        "Banks catch cards. Victims still hand OTPs on WhatsApp / SMS / Instagram — especially in Pidgin and local languages global tools miss. Full link list on slide 16.",
+        "Banks catch cards. Victims still hand OTPs on WhatsApp / SMS / Instagram — especially in Pidgin and local languages global tools miss. Full link list on News Sources slide.",
         size=14,
         color=MUTED,
     )
@@ -369,7 +382,58 @@ def build():
     )
     footer(s, 4)
 
-    # 5 Market strategy
+    # 5 Why people buy — real news stories (checked)
+    s = prs.slides.add_slide(blank)
+    bg(s)
+    kicker(s, "Market pitch — why people buy")
+    title(s, "Real stories → real willingness to pay")
+    buy_stories = [
+        (
+            "Student / consumer",
+            "Plateau woman lost ₦102,000 after a fake ALAT/Wema WhatsApp ‘care’ link asked for login / OTP.",
+            "Buys: chat check that says DANGER before OTP is shared.",
+            "https://fij.ng/article/alat-by-wema-fraudster-steals-plateau-womans-n102000/",
+            "FIJ →",
+        ),
+        (
+            "Anyone with a SIM + bank app",
+            "Katsina SIM-swap ring arrested; 32 SIMs used to drain accounts — refunds are slow/hard.",
+            "Buys: SIM-swap risk cues + ‘don’t trust SMS OTP alone’ advice.",
+            "https://www.vanguardngr.com/2025/01/police-nab-syndicate-using-sim-swap-to-defraud-bank-customers/",
+            "Vanguard →",
+        ),
+        (
+            "SMB / investor-curious user",
+            "CBEX promised extreme short-term returns then collapsed; SEC said it was never registered.",
+            "Buys: link/crypto scan + SEC verify cue before depositing.",
+            "https://techcabal.com/2025/04/15/cbex-ponzi-collapse-nigeria/",
+            "TechCabal →",
+        ),
+        (
+            "WhatsApp-heavy users",
+            "NCC-CSIRT warned on ‘free data & airtime’ phishing that spreads via WhatsApp shares.",
+            "Buys: paste/forward check before tapping promo links.",
+            "https://csirt.ncc.gov.ng/index.php/resources/security-advisories/431-fraudulent-free-data-and-airtime-phishing-campaign-hosted-on-ibaidad-com",
+            "NCC-CSIRT →",
+        ),
+    ]
+    for i, (who, story, buy, url, link_label) in enumerate(buy_stories):
+        y = Inches(1.4) + i * Inches(1.25)
+        box(s, M, y, Inches(12.3), Inches(1.15), WHITE, BORDER)
+        tf = tb(s, M + Inches(0.2), y + Inches(0.1), Inches(2.4), Inches(0.9))
+        set_p(tf, who, size=13, bold=True, color=RED)
+        tf = tb(s, M + Inches(2.7), y + Inches(0.1), Inches(6.6), Inches(0.95))
+        set_p(tf, story, size=12, color=INK)
+        add_p(tf, buy, size=12, bold=True, color=BLACK)
+        tf = tb(s, M + Inches(9.6), y + Inches(0.35), Inches(2.4), Inches(0.45))
+        set_p(tf, link_label, size=12, bold=True, color=RED, align=PP_ALIGN.RIGHT, url=url)
+    notes(
+        s,
+        "Judges check research: each buyer motivation maps to a published Nigerian story with a live URL.",
+    )
+    footer(s, 5)
+
+    # 6 Market strategy
     s = prs.slides.add_slide(blank)
     bg(s)
     kicker(s, "Market strategy")
@@ -396,7 +460,7 @@ def build():
         size=13,
         color=INK,
     )
-    footer(s, 5)
+    footer(s, 6)
 
     # 6 GTM flowchart
     s = prs.slides.add_slide(blank)
@@ -421,9 +485,9 @@ def build():
     flow_node(s, M + Inches(9.0), Inches(4.0), Inches(3.2), Inches(1.0), "Compliance path\nNDPA · EFCC advice", BLACK, WHITE, 12)
     tf = tb(s, M, Inches(5.5), Inches(12.2), Inches(0.9))
     set_p(tf, "Strategy: prove trust on campus → sell to WhatsApp SMBs → license language packs to larger platforms.", size=14, color=MUTED)
-    footer(s, 6)
+    footer(s, 7)
 
-    # 7 Solution
+    # 8 Solution
     s = prs.slides.add_slide(blank)
     bg(s)
     kicker(s, "Solution")
@@ -441,7 +505,7 @@ def build():
         set_p(tf, h, size=16, bold=True, color=WHITE, align=PP_ALIGN.CENTER)
         tf = tb(s, x + Inches(0.25), Inches(2.9), Inches(3.4), Inches(2.0))
         set_p(tf, body, size=16, color=INK, align=PP_ALIGN.CENTER)
-    footer(s, 7)
+    footer(s, 8)
 
     # 8 Engine flowchart
     s = prs.slides.add_slide(blank)
@@ -458,7 +522,7 @@ def build():
     flow_node(s, M + Inches(3.5), Inches(4.1), Inches(5.8), Inches(0.7), "Risk score → SAFE / CAREFUL / DANGER", BLACK)
     arrow_down(s, M + Inches(6.35), Inches(4.9))
     flow_node(s, M + Inches(2.0), Inches(5.3), Inches(8.8), Inches(0.7), "Plain advice (EN + Pidgin)  ·  Trust Chain  ·  next step (call bank / don’t send OTP)", DKRED)
-    footer(s, 8)
+    footer(s, 9)
 
     # 9 Prototype WhatsApp
     s = prs.slides.add_slide(blank)
@@ -476,7 +540,7 @@ def build():
     add_p(tf, "• Advice in Pidgin: no share OTP / PIN / BVN", size=12)
     add_p(tf, "• Finding: otp_theft · pidgin", size=12)
     add_p(tf, "URL: http://127.0.0.1:5174/messages", size=11, color=MUTED)
-    footer(s, 9)
+    footer(s, 10)
 
     # 10 Prototype gallery 2
     s = prs.slides.add_slide(blank)
@@ -494,7 +558,7 @@ def build():
         add_img(s, path, x + Inches(0.15), Inches(1.7), Inches(3.7))
         tf = tb(s, x + Inches(0.15), Inches(5.85), Inches(3.7), Inches(0.5))
         set_p(tf, caption, size=12, bold=True, color=BRAND, align=PP_ALIGN.CENTER)
-    footer(s, 10)
+    footer(s, 11)
 
     # 11 Competitive clear table
     s = prs.slides.add_slide(blank)
@@ -512,7 +576,7 @@ def build():
         ["Privacy (NDPA)", "Cloud paste unclear", "Offline packs · permissioned inbox"],
     ]
     draw_table(s, M, Inches(1.5), col_w, Inches(0.7), headers, rows)
-    footer(s, 11)
+    footer(s, 12)
 
     # 12 Feasibility
     s = prs.slides.add_slide(blank)
@@ -532,7 +596,7 @@ def build():
         set_p(tf, h, size=16, bold=True, color=BRAND)
         tf = tb(s, M + Inches(0.3), y + Inches(0.5), Inches(11.7), Inches(0.4))
         set_p(tf, body, size=14, color=INK)
-    footer(s, 12)
+    footer(s, 13)
 
     # 13 Future steps — clear
     s = prs.slides.add_slide(blank)
@@ -557,7 +621,7 @@ def build():
             p.space_after = Pt(8)
             run(p, "•  ", size=13, bold=True, color=color)
             run(p, b, size=13, color=INK)
-    footer(s, 13)
+    footer(s, 14)
 
     # 14 Roadmap flowchart
     s = prs.slides.add_slide(blank)
@@ -582,7 +646,7 @@ def build():
     set_p(tf, "Success metrics we track", size=15, bold=True, color=BRAND)
     add_p(tf, "1) % of OTP scam samples correctly BLOCKED   2) False BLOCK rate on clean chat   3) Campus weekly active users", size=13)
     add_p(tf, "4) SMB paid conversions after 30-day trial   5) Time-to-advice < 2 seconds on offline packs", size=13)
-    footer(s, 14)
+    footer(s, 15)
 
     # 15 Metrics / evidence
     s = prs.slides.add_slide(blank)
@@ -599,35 +663,45 @@ def build():
         ["Link / website visit", "Working", "Live fetch + SEC demo cues"],
     ]
     draw_table(s, M, Inches(1.55), col_w, Inches(0.75), headers, rows)
-    footer(s, 15)
+    footer(s, 16)
 
-    # 16 News sources (clickable)
+    # 17 News sources (clickable) + project links
     s = prs.slides.add_slide(blank)
     bg(s)
-    kicker(s, "News sources — show these")
-    title(s, "Clickable links for judges / Q&A")
+    kicker(s, "Links judges will check")
+    title(s, "Demo · GitHub · news sources (all clickable)", size=24)
+    # Project links row
+    box(s, M, Inches(1.35), Inches(6.1), Inches(0.85), BLACK, None)
+    tf = tb(s, M + Inches(0.15), Inches(1.45), Inches(5.8), Inches(0.7))
+    set_p(tf, "Demo video (Google Drive) →", size=13, bold=True, color=RED, url=DEMO_VIDEO)
+    add_p(tf, "drive.google.com/…/1D3imdRD2F6wBZ5q_iGs_-SKUMQxebVHh", size=10, color=GREY, url=DEMO_VIDEO)
+    box(s, M + Inches(6.35), Inches(1.35), Inches(6.0), Inches(0.85), BLACK, None)
+    tf = tb(s, M + Inches(6.5), Inches(1.45), Inches(5.7), Inches(0.7))
+    set_p(tf, "GitHub — Shreeya1-pixel/SafeNajia →", size=13, bold=True, color=RED, url=GITHUB_WEB)
+    add_p(tf, GITHUB_REPO, size=10, color=GREY, url=GITHUB_REPO)
+    # News grid (slightly tighter)
     left = NEWS_SOURCES[:6]
     right = NEWS_SOURCES[6:]
     for col, items in enumerate((left, right)):
         x = M + col * Inches(6.35)
-        y = Inches(1.45)
+        y = Inches(2.35)
         for label, url in items:
-            box(s, x, y, Inches(6.1), Inches(0.72), WHITE, BORDER)
-            tf = tb(s, x + Inches(0.15), y + Inches(0.08), Inches(5.8), Inches(0.55))
-            set_p(tf, label, size=11, bold=True, color=RED, url=url)
-            y += Inches(0.8)
+            box(s, x, y, Inches(6.1), Inches(0.62), WHITE, BORDER)
+            tf = tb(s, x + Inches(0.12), y + Inches(0.08), Inches(5.85), Inches(0.48))
+            set_p(tf, label, size=10, bold=True, color=RED, url=url)
+            y += Inches(0.68)
     notes(
         s,
-        "Open these live. Primary: FIJ WhatsApp ₦102k · Vanguard SIM-swap · Punch ₦25.85bn · Premium Times CBN · TechCabal CBEX · NCC-CSIRT advisories · sec.gov.ng",
+        "Must-open: Demo Drive · GitHub · FIJ ₦102k · Vanguard SIM-swap · Punch ₦25.85bn · TechCabal CBEX · NCC-CSIRT · sec.gov.ng",
     )
-    footer(s, 16)
+    footer(s, 17)
 
-    # 17 Ask
+    # 18 Ask
     s = prs.slides.add_slide(blank)
     bg(s, dark=True)
-    tf = tb(s, M, Inches(1.8), Inches(12), Inches(0.4))
+    tf = tb(s, M, Inches(1.5), Inches(12), Inches(0.4))
     set_p(tf, "CLOSING ASK", size=14, bold=True, color=RED)
-    tf = tb(s, M, Inches(2.4), Inches(12), Inches(1.5))
+    tf = tb(s, M, Inches(2.05), Inches(12), Inches(1.4))
     set_p(
         tf,
         "Mentor a campus pilot so SafeNaija reaches\nstudents before the next OTP scam.",
@@ -635,16 +709,24 @@ def build():
         bold=True,
         color=WHITE,
     )
-    tf = tb(s, M, Inches(4.4), Inches(12), Inches(1.3))
+    tf = tb(s, M, Inches(3.7), Inches(12), Inches(1.1))
     set_p(
         tf,
-        "Customers: students & WhatsApp SMBs first.\nStrategy: campus proof → SMB SaaS → bank/telco API.\nPrototype is runnable today on localhost:5174.",
-        size=16,
+        "Customers: students & WhatsApp SMBs first.\nStrategy: campus proof → SMB SaaS → bank/telco API.\nWhy they buy: real FIJ / Vanguard / CBEX / NCC-CSIRT losses — not theory.",
+        size=15,
         color=GREY,
     )
-    tf = tb(s, M, Inches(6.1), Inches(12), Inches(0.4))
-    set_p(tf, "Q&A · Demo · Case Library · News links (slide 16)", size=14, color=RED)
-    notes(s, "End on ask + offer live Chat Demo + open FIJ/Punch links if challenged on research.")
+    box(s, M, Inches(5.15), Inches(6.0), Inches(1.0), DGREY, None)
+    tf = tb(s, M + Inches(0.2), Inches(5.3), Inches(5.6), Inches(0.75))
+    set_p(tf, "Demo video →", size=14, bold=True, color=RED, url=DEMO_VIDEO)
+    add_p(tf, DEMO_VIDEO, size=9, color=GREY, url=DEMO_VIDEO)
+    box(s, M + Inches(6.3), Inches(5.15), Inches(6.0), Inches(1.0), DGREY, None)
+    tf = tb(s, M + Inches(6.5), Inches(5.3), Inches(5.6), Inches(0.75))
+    set_p(tf, "GitHub →", size=14, bold=True, color=RED, url=GITHUB_WEB)
+    add_p(tf, GITHUB_REPO, size=9, color=GREY, url=GITHUB_REPO)
+    tf = tb(s, M, Inches(6.35), Inches(12), Inches(0.35))
+    set_p(tf, "Q&A · Case Library · News + project links (slide 17)", size=13, color=RED)
+    notes(s, "End on ask + open Demo Drive / GitHub / FIJ if challenged.")
 
     # write outputs
     out_downloads = DOWNLOADS / "SafeNaija.pptx"

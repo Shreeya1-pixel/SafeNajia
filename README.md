@@ -15,9 +15,16 @@ Watch the prototype walkthrough (Google Drive):
 https://drive.google.com/drive/folders/1D3imdRD2F6wBZ5q_iGs_-SKUMQxebVHh?usp=sharing
 ```
 
+## Project links (also on the pitch deck)
+
+| Item | Link |
+|---|---|
+| **Demo video** | https://drive.google.com/drive/folders/1D3imdRD2F6wBZ5q_iGs_-SKUMQxebVHh?usp=sharing |
+| **GitHub** | https://github.com/Shreeya1-pixel/SafeNajia.git |
+
 ## News sources (show these)
 
-Full clickable list: **[NEWS_SOURCES.md](NEWS_SOURCES.md)** · also on **slide 16** of the pitch deck.
+Full clickable list: **[NEWS_SOURCES.md](NEWS_SOURCES.md)** · also on **slide 17** of the pitch deck (with Demo + GitHub).
 
 | Story / number | Open |
 |---|---|

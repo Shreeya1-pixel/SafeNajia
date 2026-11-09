@@ -1,6 +1,22 @@
 # News sources to show (ThinkAI ’26)
 
-Open these live during the pitch / Q&A. Same links are clickable on **slide 16** of `SafeNaija.pptx` (M8 red · white · black deck).
+Open these live during the pitch / Q&A. Same links are clickable on **slide 17** of `SafeNaija.pptx` (M8 red · white · black deck), together with Demo + GitHub.
+
+## Project links
+
+| Item | URL |
+|---|---|
+| Demo video (Google Drive) | https://drive.google.com/drive/folders/1D3imdRD2F6wBZ5q_iGs_-SKUMQxebVHh?usp=sharing |
+| GitHub | https://github.com/Shreeya1-pixel/SafeNajia.git |
+
+## Why people buy (market stories)
+
+| Buyer | Real story | Why they pay | Link |
+|---|---|---|---|
+| Student / consumer | FIJ WhatsApp bank-care theft ₦102k | Stop OTP share on chat | https://fij.ng/article/alat-by-wema-fraudster-steals-plateau-womans-n102000/ |
+| Bank app user | Vanguard SIM-swap syndicate | SIM/OTP risk advice | https://www.vanguardngr.com/2025/01/police-nab-syndicate-using-sim-swap-to-defraud-bank-customers/ |
+| SMB / investor-curious | TechCabal CBEX collapse | SEC verify before deposit | https://techcabal.com/2025/04/15/cbex-ponzi-collapse-nigeria/ |
+| WhatsApp-heavy user | NCC-CSIRT free data/airtime phishing | Check promo links before tap | https://csirt.ncc.gov.ng/index.php/resources/security-advisories/431-fraudulent-free-data-and-airtime-phishing-campaign-hosted-on-ibaidad-com |
 
 ## Core stories & numbers
 
