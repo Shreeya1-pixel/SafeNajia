@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import DecisionBadge from "../../components/DecisionBadge";
 import TrustChain, { buildTrustChain } from "../../components/TrustChain";
 import {
@@ -32,6 +32,7 @@ const SAMPLES = [
 ];
 
 export default function MessageScan() {
+  const location = useLocation();
   const [text, setText] = useState(SAMPLES[0].text);
   const [channel, setChannel] = useState("manual");
   const [channels, setChannels] = useState([]);
@@ -58,6 +59,16 @@ export default function MessageScan() {
   useEffect(() => {
     refreshChannels().catch(() => {});
   }, []);
+
+  // Case Library → Analyze this sample
+  useEffect(() => {
+    const sample = location.state?.sampleText;
+    if (!sample) return;
+    setText(sample);
+    if (location.state?.sampleChannel) setChannel(location.state.sampleChannel);
+    setStatusMsg(`Loaded case-library sample: ${location.state?.sampleTitle || "demo"}`);
+    setResult(null);
+  }, [location.state]);
 
   async function runScan() {
     setBusy(true);

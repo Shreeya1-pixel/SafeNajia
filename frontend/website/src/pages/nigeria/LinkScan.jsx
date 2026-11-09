@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import CodeFrame from "../../components/CodeFrame";
 import DecisionBadge from "../../components/DecisionBadge";
 import RiskPassport from "../../components/RiskPassport";
@@ -6,12 +7,22 @@ import TrustChain, { buildTrustChain } from "../../components/TrustChain";
 import { scanGithub, scanLink } from "../../nigeriaApi";
 
 export default function LinkScan() {
+  const location = useLocation();
   const [url, setUrl] = useState("https://github.com/demo-student/naija-fintech-bot");
   const [extra, setExtra] = useState("Guaranteed 40% weekly returns. Send USDT to start.");
   const [mode, setMode] = useState("github");
   const [result, setResult] = useState(null);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    const sampleUrl = location.state?.sampleUrl;
+    if (!sampleUrl) return;
+    setMode("link");
+    setUrl(sampleUrl);
+    setExtra(location.state?.sampleTitle || "");
+    setResult(null);
+  }, [location.state]);
 
   async function run() {
     setBusy(true);

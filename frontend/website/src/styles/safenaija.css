@@ -619,6 +619,12 @@
 
 /* Case library */
 .ng-case-list { display: flex; flex-direction: column; gap: 12px; }
+.ng-case-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 14px;
+}
+.ng-case-filters { margin-bottom: 8px; }
 .ng-case-head {
   width: 100%;
   display: flex;
@@ -633,6 +639,13 @@
   color: inherit;
 }
 .ng-case-head h3 { margin: 4px 0; font-size: 16px; }
+.ng-case-meta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+  margin-bottom: 4px;
+}
 .ng-case-label {
   display: inline-block;
   font-size: 10px;
@@ -643,10 +656,39 @@
   border-radius: 999px;
   padding: 3px 8px;
 }
+.ng-case-label-real { color: #065f46; background: #d1fae5; }
+.ng-case-label-demo { color: #5b21b6; background: #ede9fe; }
+.ng-case-cat {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 600;
+  color: #4b5563;
+  background: #f3f4f6;
+  border-radius: 6px;
+  padding: 2px 8px;
+}
 .ng-case-chevron {
   font-size: 22px;
   color: #9ca3af;
   line-height: 1;
+}
+.ng-case-preview {
+  margin: 8px 0;
+  font-size: 13px;
+  color: #4b5563;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.ng-case-foot {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  font-size: 11px;
+  color: #6b7280;
+  border-top: 1px solid #f3f4f6;
+  padding-top: 10px;
 }
 .ng-case-body { margin-top: 12px; padding-top: 12px; border-top: 1px solid #f3f4f6; }
 .ng-case-body h4 { margin: 12px 0 6px; font-size: 13px; }
@@ -657,3 +699,35 @@
   padding: 1px 6px;
   border-radius: 4px;
 }
+.ng-sample-card h3 { margin: 8px 0 6px; font-size: 16px; }
+.ng-sev {
+  margin-left: auto;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+}
+.ng-sev-CRITICAL { color: #b91c1c; }
+.ng-sev-HIGH { color: #c2410c; }
+.ng-sev-MODERATE { color: #a16207; }
+.ng-sev-LOW { color: #047857; }
+.ng-table-wrap { overflow-x: auto; }
+.ng-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+}
+.ng-table th, .ng-table td {
+  text-align: left;
+  padding: 10px 12px;
+  border-bottom: 1px solid #f3f4f6;
+  vertical-align: top;
+}
+.ng-table th {
+  background: #111827;
+  color: #fff;
+  font-size: 12px;
+}
+.ng-table a { color: var(--ng-green); font-weight: 600; }
