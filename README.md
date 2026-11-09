@@ -15,6 +15,20 @@ Watch the prototype walkthrough (Google Drive):
 https://drive.google.com/drive/folders/1D3imdRD2F6wBZ5q_iGs_-SKUMQxebVHh?usp=sharing
 ```
 
+## News sources (show these)
+
+Full clickable list: **[NEWS_SOURCES.md](NEWS_SOURCES.md)** · also on **slide 16** of the pitch deck.
+
+| Story / number | Open |
+|---|---|
+| FIJ — WhatsApp bank-care theft ₦102k | [fij.ng](https://fij.ng/article/alat-by-wema-fraudster-steals-plateau-womans-n102000/) |
+| Vanguard — SIM-swap arrests | [vanguardngr.com](https://www.vanguardngr.com/2025/01/police-nab-syndicate-using-sim-swap-to-defraud-bank-customers/) |
+| Punch — ₦25.85bn payment fraud losses | [punchng.com](https://punchng.com/digital-payment-fraud-losses-drop-51-to-n25-85bn/) |
+| TechCabal — CBEX collapse | [techcabal.com](https://techcabal.com/2025/04/15/cbex-ponzi-collapse-nigeria/) |
+| Premium Times — CBN fraud-message alert | [premiumtimesng.com](https://www.premiumtimesng.com/business/business-news/873799-cbn-alerts-public-to-fraudulent-messages-cybersecurity-hack-attempts.html) |
+| NCC-CSIRT — free data/airtime phishing | [csirt.ncc.gov.ng](https://csirt.ncc.gov.ng/index.php/resources/security-advisories/431-fraudulent-free-data-and-airtime-phishing-campaign-hosted-on-ibaidad-com) |
+| SEC Nigeria — verify platforms | [sec.gov.ng](https://sec.gov.ng) |
+
 ## Prototype screenshots
 
 ### Messages — Pidgin OTP scam → BLOCK

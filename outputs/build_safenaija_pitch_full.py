@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""SafeNaija ThinkAI ’26 pitch — prototype pics, market table, roadmap, flowcharts."""
+"""SafeNaija ThinkAI ’26 pitch — M8 red / white / black visual system."""
 from __future__ import annotations
 
 from pathlib import Path
@@ -15,26 +15,85 @@ IMG = OUT_DIR / "img"
 DOWNLOADS = Path.home() / "Downloads"
 DESKTOP = Path.home() / "Desktop"
 
-BRAND = RGBColor(0x00, 0x5B, 0xB5)
-BRAND_DARK = RGBColor(0x00, 0x44, 0x88)
-BRAND_LIGHT = RGBColor(0xE6, 0xF0, 0xFA)
-GREEN = RGBColor(0x16, 0xA3, 0x4A)
-RED = RGBColor(0xDC, 0x26, 0x26)
-AMBER = RGBColor(0xD9, 0x77, 0x06)
-INK = RGBColor(0x1F, 0x29, 0x37)
-MUTED = RGBColor(0x6B, 0x72, 0x80)
+# M8 palette (red · white · black)
+RED = RGBColor(0xE8, 0x27, 0x2D)
+DKRED = RGBColor(0x9B, 0x00, 0x00)
+BLACK = RGBColor(0x00, 0x00, 0x00)
+DGREY = RGBColor(0x1A, 0x1A, 0x1A)
+GREY = RGBColor(0xBB, 0xBB, 0xBB)
+MGREY = RGBColor(0x66, 0x66, 0x66)
 WHITE = RGBColor(0xFF, 0xFF, 0xFF)
-GRAY_BG = RGBColor(0xF7, 0xFB, 0xFF)
-CARD = RGBColor(0xFF, 0xFF, 0xFF)
-BORDER = RGBColor(0xDB, 0xEA, 0xFE)
-HEADER_BG = RGBColor(0x00, 0x5B, 0xB5)
-ROW_ALT = RGBColor(0xF0, 0xF7, 0xFF)
+
+BRAND = RED
+BRAND_DARK = BLACK
+BRAND_LIGHT = RGBColor(0xF5, 0xF5, 0xF5)
+GREEN = BLACK  # "SAFE" uses black in M8 system
+AMBER = MGREY  # "CAREFUL" uses mid grey
+INK = BLACK
+MUTED = MGREY
+GRAY_BG = WHITE
+CARD = WHITE
+BORDER = GREY
+HEADER_BG = RED
+ROW_ALT = RGBColor(0xF2, 0xF2, 0xF2)
 
 FONT = "Arial"
 W = Inches(13.333)
 H = Inches(7.5)
 M = Inches(0.5)
-TOTAL = 16
+TOTAL = 17
+
+# News sources judges can open live during Q&A
+NEWS_SOURCES = [
+    (
+        "FIJ — ALAT/Wema WhatsApp theft ₦102k (20 Feb 2025)",
+        "https://fij.ng/article/alat-by-wema-fraudster-steals-plateau-womans-n102000/",
+    ),
+    (
+        "Vanguard / NAN — Katsina SIM-swap syndicate arrests (16 Jan 2025)",
+        "https://www.vanguardngr.com/2025/01/police-nab-syndicate-using-sim-swap-to-defraud-bank-customers/",
+    ),
+    (
+        "Punch — digital-payment fraud losses ₦25.85bn / −51% (NeFF 2026 data)",
+        "https://punchng.com/digital-payment-fraud-losses-drop-51-to-n25-85bn/",
+    ),
+    (
+        "Punch — protecting bank apps from hackers (fraud context)",
+        "https://punchng.com/protecting-your-bank-apps-from-hackers/",
+    ),
+    (
+        "Premium Times — CBN alerts on fraudulent messages / cyber attempts",
+        "https://www.premiumtimesng.com/business/business-news/873799-cbn-alerts-public-to-fraudulent-messages-cybersecurity-hack-attempts.html",
+    ),
+    (
+        "TechCabal — CBEX collapse (15 Apr 2025)",
+        "https://techcabal.com/2025/04/15/cbex-ponzi-collapse-nigeria/",
+    ),
+    (
+        "Nairametrics — loan apps / shady practices concerns (14 Feb 2025)",
+        "https://nairametrics.com/2025/02/14/licensed-loan-app-companies-in-nigeria-surge-to-380-amid-concerns-over-shady-practices/",
+    ),
+    (
+        "NCC-CSIRT — “free data & airtime” WhatsApp phishing advisory",
+        "https://csirt.ncc.gov.ng/index.php/resources/security-advisories/431-fraudulent-free-data-and-airtime-phishing-campaign-hosted-on-ibaidad-com",
+    ),
+    (
+        "NCC-CSIRT — rogue cellular / SMS banking fraud advisory",
+        "https://csirt.ncc.gov.ng/index.php/resources/security-advisories/411-ncc-csirt-cybersecurity-advisory-on-rogue-cellular-network-attacks-and-mobile-signal-hijacking-used-for-banking-fraud",
+    ),
+    (
+        "SEC Nigeria — verify investment platforms",
+        "https://sec.gov.ng",
+    ),
+    (
+        "CBN — official site / helpline verification",
+        "https://www.cbn.gov.ng",
+    ),
+    (
+        "Guardian / NITDA — ~₦250bn yearly cybercrime estimate (Aug 2025)",
+        "https://guardian.ng/news/nigeria-loses-n250bn-to-cybercrime-yearly-nitda/",
+    ),
+]
 
 
 def fill(shape, color):
@@ -73,28 +132,30 @@ def tb(slide, l, t, w, h):
     return tf
 
 
-def run(p, text, *, size=16, bold=False, color=INK, font=FONT):
+def run(p, text, *, size=16, bold=False, color=INK, font=FONT, url=None):
     r = p.add_run()
     r.text = text
     r.font.name = font
     r.font.size = Pt(size)
     r.font.bold = bold
     r.font.color.rgb = color
+    if url:
+        r.hyperlink.address = url
     return r
 
 
-def set_p(tf, text, *, size=16, bold=False, color=INK, align=PP_ALIGN.LEFT):
+def set_p(tf, text, *, size=16, bold=False, color=INK, align=PP_ALIGN.LEFT, url=None):
     p = tf.paragraphs[0]
     p.alignment = align
     p.clear()
-    run(p, text, size=size, bold=bold, color=color)
+    run(p, text, size=size, bold=bold, color=color, url=url)
     return p
 
 
-def add_p(tf, text, *, size=14, bold=False, color=INK, space=4):
+def add_p(tf, text, *, size=14, bold=False, color=INK, space=4, url=None):
     p = tf.add_paragraph()
     p.space_before = Pt(space)
-    run(p, text, size=size, bold=bold, color=color)
+    run(p, text, size=size, bold=bold, color=color, url=url)
     return p
 
 
@@ -104,13 +165,18 @@ def notes(slide, text):
 
 def footer(slide, n):
     tf = tb(slide, M, H - Inches(0.35), Inches(9), Inches(0.25))
-    set_p(tf, "SafeNaija  ·  ThinkAI ’26  ·  Nigeria  ·  Cybersecurity", size=10, color=MUTED)
+    set_p(tf, "SafeNaija  ·  ThinkAI ’26  ·  Nigeria  ·  Cybersecurity  ·  M8 palette", size=10, color=MUTED)
     num = tb(slide, W - M - Inches(1.1), H - Inches(0.35), Inches(1.1), Inches(0.25))
     set_p(num, f"{n} / {TOTAL}", size=10, color=MUTED, align=PP_ALIGN.RIGHT)
 
 
 def bg(slide, dark=False):
-    rect(slide, 0, 0, W, H, BRAND_DARK if dark else GRAY_BG)
+    rect(slide, 0, 0, W, H, BLACK if dark else WHITE)
+    if dark:
+        # thin red top bar (M8)
+        rect(slide, 0, 0, W, Inches(0.08), RED)
+    else:
+        rect(slide, 0, 0, W, Inches(0.06), RED)
 
 
 def kicker(slide, text):
@@ -195,7 +261,7 @@ def build():
     s = prs.slides.add_slide(blank)
     bg(s, dark=True)
     tf = tb(s, M, Inches(1.55), Inches(12), Inches(0.35))
-    set_p(tf, "THINKAI ’26  ·  NIGERIA  ·  CYBERSECURITY", size=13, bold=True, color=RGBColor(0x93, 0xC5, 0xFD))
+    set_p(tf, "THINKAI ’26  ·  NIGERIA  ·  CYBERSECURITY", size=13, bold=True, color=RED)
     tf = tb(s, M, Inches(2.15), Inches(12), Inches(0.85))
     set_p(tf, "SafeNaija", size=52, bold=True, color=WHITE)
     tf = tb(s, M, Inches(3.15), Inches(11.5), Inches(1.2))
@@ -203,16 +269,16 @@ def build():
         tf,
         "Prototype live: WhatsApp · Gmail · links · GitHub → Safe / Careful / Danger\nin English + Pidgin (and Hausa / Yoruba / Igbo packs).",
         size=18,
-        color=RGBColor(0xDB, 0xEA, 0xFE),
+        color=GREY,
     )
     tf = tb(s, M, Inches(4.7), Inches(11), Inches(0.8))
     set_p(
         tf,
         "Customers → students & SMBs  ·  Market strategy → campus then WhatsApp commerce  ·  Twist: Norton Genie standalone",
         size=14,
-        color=RGBColor(0x93, 0xC5, 0xFD),
+        color=RED,
     )
-    notes(s, "Open with demo promise; point to prototype slides mid-pitch.")
+    notes(s, "Open with demo promise; point to prototype slides mid-pitch. Cite FIJ / Punch / Vanguard on problem slides.")
 
     # 2 Brief
     s = prs.slides.add_slide(blank)
@@ -240,22 +306,40 @@ def build():
     kicker(s, "The problem")
     title(s, "Social engineering still wins on chat")
     stats = [
-        ("₦25.85bn", "digital-payment fraud losses 2025\n(NIBSS / Punch)"),
-        ("₦250bn+", "yearly cybercrime estimate\n(NITDA / Guardian)"),
-        ("WhatsApp", "fake bank-care OTP theft\n(FIJ Feb 2025)"),
-        ("SIM-swap", "syndicates drain accounts\n(Vanguard Jan 2025)"),
+        (
+            "₦25.85bn",
+            "digital-payment fraud losses 2025\n(NIBSS / Punch)",
+            "https://punchng.com/digital-payment-fraud-losses-drop-51-to-n25-85bn/",
+        ),
+        (
+            "₦250bn+",
+            "yearly cybercrime estimate\n(NITDA / Guardian)",
+            "https://guardian.ng/news/nigeria-loses-n250bn-to-cybercrime-yearly-nitda/",
+        ),
+        (
+            "WhatsApp",
+            "fake bank-care OTP theft\n(FIJ Feb 2025)",
+            "https://fij.ng/article/alat-by-wema-fraudster-steals-plateau-womans-n102000/",
+        ),
+        (
+            "SIM-swap",
+            "syndicates drain accounts\n(Vanguard Jan 2025)",
+            "https://www.vanguardngr.com/2025/01/police-nab-syndicate-using-sim-swap-to-defraud-bank-customers/",
+        ),
     ]
-    for i, (big, small) in enumerate(stats):
+    for i, (big, small, url) in enumerate(stats):
         x = M + i * Inches(3.15)
-        box(s, x, Inches(1.75), Inches(3.0), Inches(3.2), WHITE, BORDER)
-        tf = tb(s, x + Inches(0.12), Inches(2.05), Inches(2.75), Inches(0.7))
-        set_p(tf, big, size=22, bold=True, color=BRAND, align=PP_ALIGN.CENTER)
-        tf = tb(s, x + Inches(0.12), Inches(2.9), Inches(2.75), Inches(1.6))
+        box(s, x, Inches(1.55), Inches(3.0), Inches(3.5), WHITE, BORDER)
+        tf = tb(s, x + Inches(0.12), Inches(1.8), Inches(2.75), Inches(0.7))
+        set_p(tf, big, size=22, bold=True, color=RED, align=PP_ALIGN.CENTER)
+        tf = tb(s, x + Inches(0.12), Inches(2.65), Inches(2.75), Inches(1.4))
         set_p(tf, small, size=13, color=INK, align=PP_ALIGN.CENTER)
-    tf = tb(s, M, Inches(5.2), Inches(12.2), Inches(1.0))
+        tf = tb(s, x + Inches(0.12), Inches(4.35), Inches(2.75), Inches(0.45))
+        set_p(tf, "Open source →", size=11, bold=True, color=RED, align=PP_ALIGN.CENTER, url=url)
+    tf = tb(s, M, Inches(5.3), Inches(12.2), Inches(1.0))
     set_p(
         tf,
-        "Banks catch cards. Victims still hand OTPs on WhatsApp / SMS / Instagram — especially in Pidgin and local languages global tools miss.",
+        "Banks catch cards. Victims still hand OTPs on WhatsApp / SMS / Instagram — especially in Pidgin and local languages global tools miss. Full link list on slide 16.",
         size=14,
         color=MUTED,
     )
@@ -327,14 +411,14 @@ def build():
     ]
     y = Inches(2.2)
     for i, (x, label) in enumerate(nodes):
-        flow_node(s, x, y, Inches(2.7), Inches(1.15), label, BRAND if i < 3 else GREEN)
+        flow_node(s, x, y, Inches(2.7), Inches(1.15), label, RED if i < 3 else BLACK)
         if i < 3:
             arrow_right(s, x + Inches(2.75), y + Inches(0.45))
     # second row
-    flow_node(s, M + Inches(1.5), Inches(4.0), Inches(3.2), Inches(1.0), "Feedback → phrase packs\n+ Case Library", BRAND_LIGHT, BRAND_DARK, 12)
+    flow_node(s, M + Inches(1.5), Inches(4.0), Inches(3.2), Inches(1.0), "Feedback → phrase packs\n+ Case Library", BRAND_LIGHT, BLACK, 12)
     arrow_down(s, M + Inches(4.9), Inches(3.45))
-    flow_node(s, M + Inches(5.5), Inches(4.0), Inches(3.2), Inches(1.0), "Partner channel\nClubs · NGOs · fintech", AMBER, WHITE, 12)
-    flow_node(s, M + Inches(9.0), Inches(4.0), Inches(3.2), Inches(1.0), "Compliance path\nNDPA · EFCC advice", BRAND_DARK, WHITE, 12)
+    flow_node(s, M + Inches(5.5), Inches(4.0), Inches(3.2), Inches(1.0), "Partner channel\nClubs · NGOs · fintech", MGREY, WHITE, 12)
+    flow_node(s, M + Inches(9.0), Inches(4.0), Inches(3.2), Inches(1.0), "Compliance path\nNDPA · EFCC advice", BLACK, WHITE, 12)
     tf = tb(s, M, Inches(5.5), Inches(12.2), Inches(0.9))
     set_p(tf, "Strategy: prove trust on campus → sell to WhatsApp SMBs → license language packs to larger platforms.", size=14, color=MUTED)
     footer(s, 6)
@@ -345,8 +429,8 @@ def build():
     kicker(s, "Solution")
     title(s, "One decision everywhere: Safe / Careful / Danger")
     triad = [
-        (GREEN, "SAFE", "Looks okay\nStill verify big payments"),
-        (AMBER, "CAREFUL", "Warning + why\nWhat to check next"),
+        (BLACK, "SAFE", "Looks okay\nStill verify big payments"),
+        (MGREY, "CAREFUL", "Warning + why\nWhat to check next"),
         (RED, "DANGER", "Stop now\nNo OTP · no transfer"),
     ]
     for i, (c, h, body) in enumerate(triad):
@@ -369,11 +453,11 @@ def build():
     for i, label in enumerate(inputs):
         flow_node(s, M + i * Inches(3.15), Inches(1.65), Inches(2.9), Inches(0.7), label, BRAND_LIGHT, BRAND_DARK, 13)
         arrow_down(s, M + i * Inches(3.15) + Inches(1.3), Inches(2.4))
-    flow_node(s, M + Inches(2.0), Inches(2.85), Inches(8.8), Inches(0.75), "Phrase packs (EN · Pidgin · Hausa · Yoruba · Igbo)  +  link visit / SEC  +  secret patterns", BRAND)
+    flow_node(s, M + Inches(2.0), Inches(2.85), Inches(8.8), Inches(0.75), "Phrase packs (EN · Pidgin · Hausa · Yoruba · Igbo)  +  link visit / SEC  +  secret patterns", RED)
     arrow_down(s, M + Inches(6.35), Inches(3.7))
-    flow_node(s, M + Inches(3.5), Inches(4.1), Inches(5.8), Inches(0.7), "Risk score → SAFE / CAREFUL / DANGER", BRAND_DARK)
+    flow_node(s, M + Inches(3.5), Inches(4.1), Inches(5.8), Inches(0.7), "Risk score → SAFE / CAREFUL / DANGER", BLACK)
     arrow_down(s, M + Inches(6.35), Inches(4.9))
-    flow_node(s, M + Inches(2.0), Inches(5.3), Inches(8.8), Inches(0.7), "Plain advice (EN + Pidgin)  ·  Trust Chain  ·  next step (call bank / don’t send OTP)", GREEN)
+    flow_node(s, M + Inches(2.0), Inches(5.3), Inches(8.8), Inches(0.7), "Plain advice (EN + Pidgin)  ·  Trust Chain  ·  next step (call bank / don’t send OTP)", DKRED)
     footer(s, 8)
 
     # 9 Prototype WhatsApp
@@ -456,10 +540,10 @@ def build():
     kicker(s, "Future steps")
     title(s, "Clear roadmap — what we do next")
     phases = [
-        ("Now (MVP)", GREEN, ["Chat Demo + Messages live", "Gmail App Password connect", "GitHub bad-code frames", "Phrase packs EN/Pidgin + NG langs"]),
-        ("+90 days", BRAND, ["Campus pilot 2–3 unis", "WhatsApp Cloud production", "Measure blocked OTP shares", "Ambassador playbook"]),
-        ("+6 months", AMBER, ["SMB WhatsApp SaaS trial", "Live SEC registry hook", "Expand Hausa/Yoruba/Igbo", "Offline mobile pack"]),
-        ("+12 months", BRAND_DARK, ["Bank/telco API talks", "White-label language packs", "NCC-CSIRT report assist", "West Africa localisation"]),
+        ("Now (MVP)", RED, ["Chat Demo + Messages live", "Gmail App Password connect", "GitHub bad-code frames", "Phrase packs EN/Pidgin + NG langs"]),
+        ("+90 days", BLACK, ["Campus pilot 2–3 unis", "WhatsApp Cloud production", "Measure blocked OTP shares", "Ambassador playbook"]),
+        ("+6 months", MGREY, ["SMB WhatsApp SaaS trial", "Live SEC registry hook", "Expand Hausa/Yoruba/Igbo", "Offline mobile pack"]),
+        ("+12 months", DKRED, ["Bank/telco API talks", "White-label language packs", "NCC-CSIRT report assist", "West Africa localisation"]),
     ]
     for i, (h, color, bullets) in enumerate(phases):
         x = M + i * Inches(3.15)
@@ -481,10 +565,10 @@ def build():
     kicker(s, "Future steps flowchart")
     title(s, "Build → pilot → product → partners")
     chain = [
-        ("Build\nMVP demo", BRAND),
-        ("Pilot\nCampuses", BRAND),
-        ("Product\nSMB SaaS", GREEN),
-        ("Partners\nBank / telco API", BRAND_DARK),
+        ("Build\nMVP demo", RED),
+        ("Pilot\nCampuses", BLACK),
+        ("Product\nSMB SaaS", MGREY),
+        ("Partners\nBank / telco API", DKRED),
     ]
     y = Inches(2.3)
     for i, (label, c) in enumerate(chain):
@@ -517,11 +601,32 @@ def build():
     draw_table(s, M, Inches(1.55), col_w, Inches(0.75), headers, rows)
     footer(s, 15)
 
-    # 16 Ask
+    # 16 News sources (clickable)
+    s = prs.slides.add_slide(blank)
+    bg(s)
+    kicker(s, "News sources — show these")
+    title(s, "Clickable links for judges / Q&A")
+    left = NEWS_SOURCES[:6]
+    right = NEWS_SOURCES[6:]
+    for col, items in enumerate((left, right)):
+        x = M + col * Inches(6.35)
+        y = Inches(1.45)
+        for label, url in items:
+            box(s, x, y, Inches(6.1), Inches(0.72), WHITE, BORDER)
+            tf = tb(s, x + Inches(0.15), y + Inches(0.08), Inches(5.8), Inches(0.55))
+            set_p(tf, label, size=11, bold=True, color=RED, url=url)
+            y += Inches(0.8)
+    notes(
+        s,
+        "Open these live. Primary: FIJ WhatsApp ₦102k · Vanguard SIM-swap · Punch ₦25.85bn · Premium Times CBN · TechCabal CBEX · NCC-CSIRT advisories · sec.gov.ng",
+    )
+    footer(s, 16)
+
+    # 17 Ask
     s = prs.slides.add_slide(blank)
     bg(s, dark=True)
     tf = tb(s, M, Inches(1.8), Inches(12), Inches(0.4))
-    set_p(tf, "CLOSING ASK", size=14, bold=True, color=RGBColor(0x93, 0xC5, 0xFD))
+    set_p(tf, "CLOSING ASK", size=14, bold=True, color=RED)
     tf = tb(s, M, Inches(2.4), Inches(12), Inches(1.5))
     set_p(
         tf,
@@ -535,11 +640,11 @@ def build():
         tf,
         "Customers: students & WhatsApp SMBs first.\nStrategy: campus proof → SMB SaaS → bank/telco API.\nPrototype is runnable today on localhost:5174.",
         size=16,
-        color=RGBColor(0xDB, 0xEA, 0xFE),
+        color=GREY,
     )
     tf = tb(s, M, Inches(6.1), Inches(12), Inches(0.4))
-    set_p(tf, "Q&A · Demo · Case Library", size=14, color=RGBColor(0x93, 0xC5, 0xFD))
-    notes(s, "End on ask + offer live Chat Demo.")
+    set_p(tf, "Q&A · Demo · Case Library · News links (slide 16)", size=14, color=RED)
+    notes(s, "End on ask + offer live Chat Demo + open FIJ/Punch links if challenged on research.")
 
     # write outputs
     out_downloads = DOWNLOADS / "SafeNaija.pptx"
