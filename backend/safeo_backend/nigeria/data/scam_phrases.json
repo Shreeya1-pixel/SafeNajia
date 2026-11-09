@@ -1,0 +1,70 @@
+{
+  "english": [
+    {"phrase": "send your otp", "category": "otp_theft", "severity": "critical"},
+    {"phrase": "send the code we sent you", "category": "otp_theft", "severity": "critical"},
+    {"phrase": "confirm your bvn", "category": "identity_theft", "severity": "critical"},
+    {"phrase": "verify your nin", "category": "identity_theft", "severity": "critical"},
+    {"phrase": "your account will be closed", "category": "bank_impersonation", "severity": "high"},
+    {"phrase": "click to unlock your account", "category": "phishing", "severity": "high"},
+    {"phrase": "guaranteed 300% returns", "category": "investment_scam", "severity": "critical"},
+    {"phrase": "double your money in 24 hours", "category": "investment_scam", "severity": "critical"},
+    {"phrase": "crypto investment opportunity", "category": "crypto_scam", "severity": "high"},
+    {"phrase": "send bitcoin to this wallet", "category": "crypto_scam", "severity": "critical"},
+    {"phrase": "loan approved without collateral", "category": "fake_loan", "severity": "high"},
+    {"phrase": "download this loan app", "category": "fake_loan", "severity": "high"},
+    {"phrase": "i love you send money", "category": "romance_scam", "severity": "high"},
+    {"phrase": "western union for visa", "category": "romance_scam", "severity": "high"},
+    {"phrase": "you have won a prize", "category": "lottery_scam", "severity": "medium"},
+    {"phrase": "pay reactivation fee", "category": "advance_fee", "severity": "high"},
+    {"phrase": "share your atm pin", "category": "otp_theft", "severity": "critical"},
+    {"phrase": "update your bank details urgently", "category": "bank_impersonation", "severity": "high"},
+    {"phrase": "share your bank details", "category": "bank_impersonation", "severity": "critical"},
+    {"phrase": "share ur bank details", "category": "bank_impersonation", "severity": "critical"},
+    {"phrase": "share your account details", "category": "bank_impersonation", "severity": "critical"},
+    {"phrase": "share your account number", "category": "bank_impersonation", "severity": "critical"},
+    {"phrase": "greetings from bank", "category": "bank_impersonation", "severity": "high"},
+    {"phrase": "greetings from the bank", "category": "bank_impersonation", "severity": "high"},
+    {"phrase": "monthly update", "category": "bank_impersonation", "severity": "high"},
+    {"phrase": "kindly provide your bank", "category": "bank_impersonation", "severity": "critical"},
+    {"phrase": "send your account details", "category": "bank_impersonation", "severity": "critical"},
+    {"phrase": "provide your bank details", "category": "bank_impersonation", "severity": "critical"},
+    {"phrase": "confirm your account details", "category": "bank_impersonation", "severity": "high"},
+    {"phrase": "hdfc bank", "category": "bank_impersonation", "severity": "medium"},
+    {"phrase": "update kyc", "category": "bank_impersonation", "severity": "high"},
+    {"phrase": "complete your kyc", "category": "bank_impersonation", "severity": "high"}
+  ],
+  "pidgin": [
+    {"phrase": "send the otp sharp sharp", "category": "otp_theft", "severity": "critical"},
+    {"phrase": "abeg send the code", "category": "otp_theft", "severity": "critical"},
+    {"phrase": "your account go close if you no click", "category": "phishing", "severity": "high"},
+    {"phrase": "make i double your money", "category": "investment_scam", "severity": "critical"},
+    {"phrase": "na free money be this", "category": "lottery_scam", "severity": "medium"},
+    {"phrase": "download loan app now now", "category": "fake_loan", "severity": "high"},
+    {"phrase": "send am before dem block you", "category": "urgency_scam", "severity": "high"},
+    {"phrase": "bank people ask make you confirm", "category": "bank_impersonation", "severity": "high"},
+    {"phrase": "i dey love you send small money", "category": "romance_scam", "severity": "high"},
+    {"phrase": "no tell anybody the code", "category": "otp_theft", "severity": "critical"}
+  ],
+  "hausa": [
+    {"phrase": "aika otp", "category": "otp_theft", "severity": "critical"},
+    {"phrase": "aika lambar sirri", "category": "otp_theft", "severity": "critical"},
+    {"phrase": "tabbatar da bvn", "category": "identity_theft", "severity": "critical"},
+    {"phrase": "ku ninka kudin ku", "category": "investment_scam", "severity": "critical"},
+    {"phrase": "zuba jari na crypto", "category": "crypto_scam", "severity": "high"},
+    {"phrase": "sauke app na rancen kudi", "category": "fake_loan", "severity": "high"}
+  ],
+  "yoruba": [
+    {"phrase": "fi otp ranse", "category": "otp_theft", "severity": "critical"},
+    {"phrase": "fi koodu ranse", "category": "otp_theft", "severity": "critical"},
+    {"phrase": "je ki a jepe owo re", "category": "investment_scam", "severity": "critical"},
+    {"phrase": "gba loan app sori foonu", "category": "fake_loan", "severity": "high"},
+    {"phrase": "account re yio tipa", "category": "bank_impersonation", "severity": "high"}
+  ],
+  "igbo": [
+    {"phrase": "zipu otp", "category": "otp_theft", "severity": "critical"},
+    {"phrase": "zipu koodu ahu", "category": "otp_theft", "severity": "critical"},
+    {"phrase": "mee ka ego gi buo ubuo", "category": "investment_scam", "severity": "critical"},
+    {"phrase": "budata loan app", "category": "fake_loan", "severity": "high"},
+    {"phrase": "akauntu gi ga-emechi", "category": "bank_impersonation", "severity": "high"}
+  ]
+}

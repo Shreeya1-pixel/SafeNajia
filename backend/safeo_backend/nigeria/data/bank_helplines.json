@@ -1,0 +1,16 @@
+{
+  "_note": "Public customer-care / helpline style numbers for demo. Not a live CBN directory.",
+  "banks": [
+    {"name": "Access Bank", "numbers": ["+2342012802500", "07003000000"], "aliases": ["access", "accessbank"]},
+    {"name": "GTBank", "numbers": ["+2342014480000", "08029004601"], "aliases": ["gtb", "gtbank", "guaranty trust"]},
+    {"name": "Zenith Bank", "numbers": ["+2342012787000", "07040007000"], "aliases": ["zenith"]},
+    {"name": "First Bank", "numbers": ["+2342019052321", "0700firstbank"], "aliases": ["firstbank", "first bank"]},
+    {"name": "UBA", "numbers": ["+2347002255822", "07002255822"], "aliases": ["uba", "united bank"]},
+    {"name": "Stanbic IBTC", "numbers": ["+2342014485900"], "aliases": ["stanbic", "ibtc"]},
+    {"name": "Fidelity Bank", "numbers": ["+2342014485252"], "aliases": ["fidelity"]},
+    {"name": "Ecobank", "numbers": ["+2347005000000"], "aliases": ["ecobank"]},
+    {"name": "Opay", "numbers": ["+2342018888888"], "aliases": ["opay"]},
+    {"name": "PalmPay", "numbers": ["+2342017000000"], "aliases": ["palmpay"]},
+    {"name": "Kuda", "numbers": ["+2342017008000"], "aliases": ["kuda"]}
+  ]
+}

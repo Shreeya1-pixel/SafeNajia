@@ -1,0 +1,15 @@
+{
+  "_note": "Demo subset inspired by public SEC Nigeria investor alerts. For MVP simulation only — always verify on sec.gov.ng.",
+  "registered_sample": [
+    {"name": "Demo Capital Markets Ltd", "reg_no": "SEC/DEMO/001", "type": "broker", "status": "active"},
+    {"name": "Lagos Trust Investments Plc", "reg_no": "SEC/DEMO/014", "type": "fund_manager", "status": "active"}
+  ],
+  "unregistered_alerts": [
+    {"name": "NaijaCrypto Doubler", "aliases": ["naijacryptodoubler", "naija crypto doubler"], "reason": "Unregistered platform promising guaranteed crypto returns"},
+    {"name": "QuickGain NG", "aliases": ["quickgainng", "quick gain ng"], "reason": "Unregistered investment scheme / advance-fee risk"},
+    {"name": "Bitcoin Recovery Experts NG", "aliases": ["bitcoinrecoveryexperts", "btc recovery ng"], "reason": "Fake recovery / romance-adjacent crypto scam"},
+    {"name": "WealthFlip Africa", "aliases": ["wealthflip", "wealth flip africa"], "reason": "Unrealistic ROI promises; not found in SEC registry sample"},
+    {"name": "ForexKing Lagos", "aliases": ["forexkinglagos", "forex king lagos"], "reason": "Unregistered forex signal / deposit scheme"}
+  ],
+  "verify_url": "https://sec.gov.ng"
+}
