@@ -5,6 +5,16 @@ AI trust layer for WhatsApp, Gmail, Instagram, links, GitHub, and phone numbers 
 
 > Protect students and WhatsApp SMBs on the channels they already use, before OTP or money leaves the phone.
 
+## Demo video
+
+Watch the prototype walkthrough (Google Drive):
+
+**[SafeNajia demo video folder](https://drive.google.com/drive/folders/1D3imdRD2F6wBZ5q_iGs_-SKUMQxebVHh?usp=sharing)**
+
+```
+https://drive.google.com/drive/folders/1D3imdRD2F6wBZ5q_iGs_-SKUMQxebVHh?usp=sharing
+```
+
 ---
 
 ## Features
