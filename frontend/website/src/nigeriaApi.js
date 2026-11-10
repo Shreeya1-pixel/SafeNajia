@@ -1,5 +1,11 @@
-/** Production: set VITE_API_BASE to the Railway API origin (e.g. https://xxx.up.railway.app). Local: Vite proxies /api → :8001. */
-const API = (import.meta.env.VITE_API_BASE || "/api").replace(/\/$/, "");
+/** Production: set VITE_API_BASE to API origin or host (e.g. https://xxx.onrender.com or xxx.onrender.com). Local: Vite proxies /api → :8001. */
+function apiBase() {
+  const raw = (import.meta.env.VITE_API_BASE || "/api").trim().replace(/\/$/, "");
+  if (!raw || raw === "/api") return "/api";
+  if (/^https?:\/\//i.test(raw) || raw.startsWith("/")) return raw;
+  return `https://${raw}`;
+}
+const API = apiBase();
 const TIMEOUT_MS = 20000;
 
 async function post(path, body) {
