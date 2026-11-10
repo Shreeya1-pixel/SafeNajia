@@ -19,21 +19,15 @@ services:
       - key: CORS_ORIGINS
         value: "*"
 
-  # Vite SPA (static). VITE_API_BASE points at the API public host.
+  # Vite SPA via Node `serve -s` so React Router paths work on free tier.
   - type: web
     name: safenaija-web
-    runtime: static
+    runtime: node
+    plan: free
+    region: oregon
     rootDir: frontend/website
     buildCommand: npm ci && npm run build
-    staticPublishPath: dist
-    routes:
-      - type: rewrite
-        source: /*
-        destination: /index.html
-    headers:
-      - path: /*
-        name: Cache-Control
-        value: public, max-age=0, must-revalidate
+    startCommand: npx --yes serve -s dist -l tcp://0.0.0.0:$PORT
     envVars:
       - key: VITE_API_BASE
         fromService:
